@@ -1,26 +1,33 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Administración y Seguridad') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="container">
-    <h2>Módulo 8: Administración y Seguridad</h2>
-    <p>¡Has ingresado correctamente al módulo!</p>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900">
+                <h4 class="mb-4">Submódulos disponibles:</h4>
 
-    <div class="row g-4 mt-4">
-        <div class="col-md-4">
-            <a href="{{ route('usuarios.index') }}" class="btn btn-primary w-100">👥 Gestión de Usuarios</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('roles.index') }}" class="btn btn-secondary w-100">🔐 Gestión de Roles</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('permisos.index') }}" class="btn btn-info w-100">🛡️ Gestión de Permisos</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('bitacora.index') }}" class="btn btn-dark w-100">📜 Bitácora</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('configuracion.index') }}" class="btn btn-warning w-100">⚙️ Configuración</a>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="{{ route('usuarios.index') }}" class="btn bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow text-center">
+                        👤 Gestión de Usuarios
+                    </a>
+                    <a href="{{ route('roles.index') }}" class="btn bg-green-500 hover:bg-green-600 text-white p-4 rounded shadow text-center">
+                        🔐 Gestión de Roles
+                    </a>
+                    <a href="{{ route('permisos.index') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded shadow text-center">
+                        🛡️ Gestión de Permisos
+                    </a>
+                    <a href="{{ route('bitacora.index') }}" class="btn bg-gray-700 hover:bg-gray-800 text-white p-4 rounded shadow text-center">
+                        📜 Bitácora del Sistema
+                    </a>
+                    <a href="{{ route('configuracion.index') }}" class="btn bg-purple-500 hover:bg-purple-600 text-white p-4 rounded shadow text-center">
+                        ⚙️ Configuración
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-@endsection
+</x-app-layout>

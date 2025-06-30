@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <h2>Crear Usuario Institucional</h2>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <form action="{{ route('usuarios.store') }}" method="POST">
         @csrf
