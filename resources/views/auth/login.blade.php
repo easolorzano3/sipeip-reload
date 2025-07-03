@@ -8,7 +8,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-sm mb-1" for="email">Correo</label>
+                    <label class="block text-sm mb-1" for="email">Usuario / Correo</label>
                     <input class="w-full p-2 rounded bg-blue-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" type="email" name="email" placeholder="ejemplo@correo.com" required autofocus />
                 </div>
                 <div class="mb-4">

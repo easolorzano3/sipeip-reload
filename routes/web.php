@@ -38,29 +38,51 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Módulo 1 - Planificación Institucional
-    Route::get('/modulo-planificacion-institucional', [Modulo1Controller::class, 'dashboard'])->name('modulo1.dashboard');
+    Route::get('/modulo-planificacion-institucional', [Modulo1Controller::class, 'index'])
+        ->middleware('can:Permisos de planificación institucional')
+        ->name('modulo1.dashboard');
 
-    Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'dashboard'])->name('modulo2.dashboard');
+    // Módulo 2: Validación de Planes
+    Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])
+        ->middleware('can:Permisos de validación de planes')
+        ->name('modulo2.dashboard');
 
-    Route::get('/modulo-proyectos-inversion', [Modulo3Controller::class, 'dashboard'])->name('modulo3.dashboard');
+    // Módulo 3: Gestión de Proyectos
+    Route::get('/modulo-gestion-proyectos', [Modulo3Controller::class, 'index'])
+        ->middleware('can:Permisos de gestión de proyectos')
+        ->name('modulo3.dashboard');
 
-    Route::get('/modulo-priorizacion-viabilidad', [Modulo4Controller::class, 'dashboard'])->name('modulo4.dashboard');
+    // Módulo 4: Priorización y Viabilidad
+    Route::get('/modulo-priorizacion-viabilidad', [Modulo4Controller::class, 'index'])
+        ->middleware('can:Permisos de priorización y viabilidad')
+        ->name('modulo4.dashboard');
 
-    Route::get('/modulo-asignacion-presupuestaria', [Modulo5Controller::class, 'dashboard'])->name('modulo5.dashboard');
+    // Módulo 5: Asignación Presupuestaria
+    Route::get('/modulo-asignacion-presupuestaria', [Modulo5Controller::class, 'index'])
+        ->middleware('can:Permisos de asignación presupuestaria')
+        ->name('modulo5.dashboard');
 
-    Route::get('/modulo-ejecucion-seguimiento', [Modulo6Controller::class, 'dashboard'])->name('modulo6.dashboard');
+    // Módulo 6: Ejecución y Seguimiento
+    Route::get('/modulo-ejecucion-seguimiento', [Modulo6Controller::class, 'index'])
+        ->middleware('can:Permisos de ejecución y seguimiento')
+        ->name('modulo6.dashboard');
 
-    Route::get('/modulo-evaluacion-cierre', [Modulo7Controller::class, 'dashboard'])->name('modulo7.dashboard');
+    // Módulo 7: Evaluación Final y Cierre
+    Route::get('/modulo-evaluacion-final', [Modulo7Controller::class, 'index'])
+        ->middleware('can:Permisos de evaluación final y cierre')
+        ->name('modulo7.dashboard');
 
-    // Módulo 8 - Administración y Seguridad
-    Route::get('/modulo-administracion-seguridad', [Modulo8Controller::class, 'dashboard'])->name('modulo8.dashboard');
-    Route::get('/modulo-administracion-seguridad/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-    Route::get('/modulo-administracion-seguridad/roles', [RolController::class, 'index'])->name('roles.index');
-    Route::get('/modulo-administracion-seguridad/permisos', [PermisoController::class, 'index'])->name('permisos.index');
-    Route::get('/modulo-administracion-seguridad/bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
-    Route::get('/modulo-administracion-seguridad/configuracion', [ConfiguracionController::class, 'index'])->name('configuracion.index');
-
+    // Módulo 8: Administración y Seguridad
+    Route::get('/modulo-administracion-seguridad', [Modulo8Controller::class, 'index'])
+        ->middleware(['auth', 'can:Permisos de auditoria'])
+        ->name('modulo8.dashboard');
+    Route::prefix('modulo-administracion-seguridad')->middleware(['auth'])->group(function () {
+    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('roles', RolController::class)->names('roles');
+    Route::resource('permisos', PermisoController::class)->names('permisos');
+    Route::resource('bitacora', BitacoraController::class)->only(['index', 'show']);
+    Route::resource('configuracion', ConfiguracionController::class)->only(['index', 'update']);
+    });
 
 });
-
 require __DIR__.'/auth.php';
