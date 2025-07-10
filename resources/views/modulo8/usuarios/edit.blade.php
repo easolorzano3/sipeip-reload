@@ -18,19 +18,35 @@
         @csrf
         @method('PUT')
 
-        <div>
-            <label class="block text-sm font-medium">Nombre</label>
-            <input type="text" name="name" value="{{ old('name', $usuario->name) }}"
-                class="w-full border rounded p-2" required>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium">Nombres</label>
+                <input type="text" name="nombres" value="{{ old('nombres', $usuario->nombres) }}" class="w-full border rounded p-2" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Apellidos</label>
+                <input type="text" name="apellidos" value="{{ old('apellidos', $usuario->apellidos) }}" class="w-full border rounded p-2" required>
+            </div>
         </div>
 
         <div>
             <label class="block text-sm font-medium">Correo electrónico</label>
-            <input type="email" name="email" value="{{ old('email', $usuario->email) }}"
-                class="w-full border rounded p-2" required>
+            <input type="email" name="email" value="{{ old('email', $usuario->email) }}" class="w-full border rounded p-2" required>
         </div>
 
-        {{-- Opcional: campo para actualizar contraseña si se desea --}}
+        <div>
+            <label class="block text-sm font-medium">Unidad Organizacional</label>
+            <select name="unidad_organizacional_id" class="w-full border rounded p-2">
+                <option value="">-- Selecciona una unidad --</option>
+                @foreach ($unidades as $unidad)
+                    <option value="{{ $unidad->id }}" {{ $usuario->unidad_organizacional_id == $unidad->id ? 'selected' : '' }}>
+                        {{ $unidad->nombre }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         <div>
             <label class="block text-sm font-medium">Nueva Contraseña <span class="text-gray-500">(opcional)</span></label>
             <input type="password" name="password" class="w-full border rounded p-2">
@@ -39,6 +55,17 @@
         <div>
             <label class="block text-sm font-medium">Confirmar Contraseña</label>
             <input type="password" name="password_confirmation" class="w-full border rounded p-2">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium">Roles</label>
+            <select name="roles[]" class="w-full border rounded p-2" multiple>
+                @foreach ($roles as $rol)
+                    <option value="{{ $rol->name }}" {{ $usuario->roles->contains('name', $rol->name) ? 'selected' : '' }}>
+                        {{ $rol->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div>

@@ -26,12 +26,12 @@
                 <td>{{ $usuario->email }}</td>
                 <td>
                     @foreach ($usuario->roles as $rol)
-                        <span class="badge bg-info text-dark">{{ $rol->name }}</span><br>
+                        <span class="badge bg-info text-white">{{ $rol->name }}</span>
                     @endforeach
                 </td>
                 <td>
                     @foreach ($usuario->getAllPermissions() as $permiso)
-                        <span class="badge bg-secondary">{{ $permiso->name }}</span><br>
+                        <span class="badge bg-secondary">{{ $permiso->name }}</span>
                     @endforeach
                 </td>
                 <td>

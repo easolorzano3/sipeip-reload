@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UnidadOrganizacional;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsuarioController extends Controller
 {
@@ -34,20 +35,27 @@ class UsuarioController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'unidad_organizacional_id' => 'nullable|exists:unidad_organizacionales,id',
-            'rol' => 'nullable|exists:roles,name',
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name',
+            'permisos' => 'nullable|array',
+            'permisos.*' => 'exists:permissions,name',
         ]);
 
         $usuario = User::create([
             'nombres' => $request->nombres,
             'apellidos' => $request->apellidos,
-            'name' => $request->nombres . ' ' . $request->apellidos, // Generado automáticamente
+            'name' => $request->nombres . ' ' . $request->apellidos,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'unidad_organizacional_id' => $request->unidad_organizacional_id,
         ]);
 
-        if ($request->rol) {
-            $usuario->assignRole($request->rol);
+        if ($request->roles) {
+            $usuario->syncRoles($request->roles);
+        }
+
+        if ($request->permisos) {
+            $usuario->syncPermissions($request->permisos);
         }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
@@ -56,10 +64,11 @@ class UsuarioController extends Controller
     // Mostrar formulario de edición
     public function edit(User $usuario)
     {
-        $unidades = UnidadOrganizacional::all();
         $roles = Role::all();
+        $permisos = Permission::all();
+        $unidades = UnidadOrganizacional::all();
 
-        return view('modulo8.usuarios.edit', compact('usuario', 'unidades', 'roles'));
+        return view('modulo8.usuarios.edit', compact('usuario', 'roles', 'permisos', 'unidades'));
     }
 
     // Actualizar usuario existente
@@ -70,8 +79,11 @@ class UsuarioController extends Controller
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $usuario->id,
             'password' => 'nullable|string|min:6|confirmed',
-            'unidad_organizacional_id' => 'nullable|exists:unidad_organizacional,id',
-            'rol' => 'nullable|exists:roles,name',
+            'unidad_organizacional_id' => 'nullable|exists:unidad_organizacionales,id',
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,name',
+            'permisos' => 'nullable|array',
+            'permisos.*' => 'exists:permissions,name',
         ]);
 
         $usuario->nombres = $request->nombres;
@@ -86,9 +98,8 @@ class UsuarioController extends Controller
 
         $usuario->save();
 
-        if ($request->rol) {
-            $usuario->syncRoles([$request->rol]);
-        }
+        $usuario->syncRoles($request->roles ?? []);
+        $usuario->syncPermissions($request->permisos ?? []);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }

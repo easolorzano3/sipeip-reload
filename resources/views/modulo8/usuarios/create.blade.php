@@ -40,22 +40,21 @@
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label for="unidad_id" class="form-label">Unidad Organizativa</label>
-                        <select id="unidad_id" name="unidad_id" class="form-select" required>
+                        <select id="unidad_organizacional_id" name="unidad_organizacional_id" class="form-select" required>
                             <option value="">-- Selecciona una unidad --</option>
                             @foreach ($unidades as $unidad)
                                 <option value="{{ $unidad->id }}">{{ $unidad->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <label for="roles" class="form-label">Rol General</label>
-                        <select id="roles" name="roles[]" class="form-select" required>
-                            <option value="">-- Selecciona un rol --</option>
-                            @foreach ($roles as $rol)
-                                <option value="{{ $rol->id }}">{{ $rol->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="roles" class="form-label">Roles</label>
+                            <select id="roles" name="roles[]" class="form-select" multiple required>
+                                @foreach ($roles as $rol)
+                                    <option value="{{ $rol->name }}">{{ $rol->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                 </div>
 
                 <div class="d-flex justify-content-end">
