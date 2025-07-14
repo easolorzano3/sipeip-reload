@@ -22,8 +22,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Permitir acceso total si el usuario tiene el permiso "todo"
-        Gate::before(function ($user, $ability) {
-            return $user->hasPermissionTo('todo') ? true : null;
-        });
+      //  Gate::before(function ($user, $ability) {
+        //    return $user->hasPermissionTo('ver modulo administración y seguridad') ? true : null;
+        //});
     }
 }

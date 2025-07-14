@@ -39,12 +39,15 @@ class RolController extends Controller
     }
 
     // Mostrar formulario de edición
-    public function edit(Role $role)
+    public function edit($id)
     {
+        $role = Role::findOrFail($id);
         $permissions = Permission::all();
-        $rolePermissions = $role->permissions->pluck('name')->toArray();
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+
         return view('modulo8.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
+
 
     // Actualizar rol
     public function update(Request $request, Role $role)

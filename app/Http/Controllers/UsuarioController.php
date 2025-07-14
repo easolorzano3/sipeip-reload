@@ -88,7 +88,7 @@ class UsuarioController extends Controller
 
         $usuario->nombres = $request->nombres;
         $usuario->apellidos = $request->apellidos;
-        $usuario->name = $request->nombres . ' ' . $request->apellidos;
+        //$usuario->name = $request->nombres . ' ' . $request->apellidos;
         $usuario->email = $request->email;
         $usuario->unidad_organizacional_id = $request->unidad_organizacional_id;
 
