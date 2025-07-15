@@ -35,6 +35,7 @@ class UsuarioController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'unidad_organizacional_id' => 'nullable|exists:unidad_organizacionales,id',
+            'entidad' => 'required|string|max:255', //Validación añadida
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name',
             'permisos' => 'nullable|array',
@@ -48,6 +49,7 @@ class UsuarioController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'unidad_organizacional_id' => $request->unidad_organizacional_id,
+            'entidad' => $request->entidad, //Guardar entidad
         ]);
 
         if ($request->roles) {
@@ -80,6 +82,7 @@ class UsuarioController extends Controller
             'email' => 'required|email|unique:users,email,' . $usuario->id,
             'password' => 'nullable|string|min:6|confirmed',
             'unidad_organizacional_id' => 'nullable|exists:unidad_organizacionales,id',
+            'entidad' => 'required|string|max:255', //Validación añadida
             'roles' => 'required|array',
             'roles.*' => 'exists:roles,name',
             'permisos' => 'nullable|array',
@@ -91,6 +94,8 @@ class UsuarioController extends Controller
         //$usuario->name = $request->nombres . ' ' . $request->apellidos;
         $usuario->email = $request->email;
         $usuario->unidad_organizacional_id = $request->unidad_organizacional_id;
+        $usuario->entidad = $request->entidad; //Guardar entidad actualizada
+        
 
         if ($request->filled('password')) {
             $usuario->password = bcrypt($request->password);

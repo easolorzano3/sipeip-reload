@@ -34,7 +34,14 @@
             <label class="block text-sm font-medium">Correo electrónico</label>
             <input type="email" name="email" value="{{ old('email', $usuario->email) }}" class="w-full border rounded p-2" required>
         </div>
-
+        <div class="mb-4">
+            <label for="entidad" class="block text-sm font-medium text-gray-700">Entidad a la que pertenece</label>
+            <input type="text" name="entidad" id="entidad"
+                value="{{ old('entidad', $usuario->entidad) }}"
+                placeholder="Ejemplo: Ministerio de Educación"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
+                required>
+        </div>
         <div>
             <label class="block text-sm font-medium">Unidad Organizacional</label>
             <select name="unidad_organizacional_id" class="w-full border rounded p-2">

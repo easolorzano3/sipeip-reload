@@ -43,6 +43,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('can:ver modulo planificación institucional')
         ->name('modulo1.dashboard');
 
+    Route::middleware(['auth'])->prefix('modulo1')->group(function () {
+        Route::resource('planes', App\Http\Controllers\Modulo1\PlanInstitucionalController::class);
+    });    
+
     // Módulo 2 - Validación de Planes
     Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])
         ->middleware('can:ver modulo validación de planes')

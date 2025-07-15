@@ -25,6 +25,7 @@
                     <label for="email" class="form-label">Correo Institucional</label>
                     <input type="email" id="email" name="email" class="form-control" placeholder="ejemplo@institucion.gob.ec" required>
                 </div>
+                
 
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -36,7 +37,13 @@
                         <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
                     </div>
                 </div>
-
+                <div class="mb-4">
+                    <label for="entidad" class="block text-sm font-medium text-gray-700">Entidad a la que pertenece</label>
+                    <input type="text" name="entidad" id="entidad"
+                        placeholder="Ejemplo: Ministerio de Educación"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
+                        required>
+                </div>
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label for="unidad_id" class="form-label">Unidad Organizativa</label>
