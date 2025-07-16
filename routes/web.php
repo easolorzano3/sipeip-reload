@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Modulo1Controller;
+use App\Http\Controllers\AlineacionPndOdsController;
+
 use App\Http\Controllers\Modulo2Controller;
 use App\Http\Controllers\Modulo3Controller;
 use App\Http\Controllers\Modulo4Controller;
@@ -11,11 +13,11 @@ use App\Http\Controllers\Modulo5Controller;
 use App\Http\Controllers\Modulo6Controller;
 use App\Http\Controllers\Modulo7Controller;
 use App\Http\Controllers\Modulo8Controller;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\PermisoController;
-use App\Http\Controllers\BitacoraController;
-use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\Modulo8\UsuarioController;
+use App\Http\Controllers\Modulo8\RolController;
+use App\Http\Controllers\Modulo8\PermisoController;
+use App\Http\Controllers\Modulo8\BitacoraController;
+use App\Http\Controllers\Modulo8\ConfiguracionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +53,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('objetivos', \App\Http\Controllers\Modulo1\ObjetivoEstrategicoController::class);
     });
 
+    Route::prefix('modulo1')->group(function () {
+        Route::resource('alineaciones-pnd-ods', \App\Http\Controllers\Modulo1\AlineacionPndOdsController::class);
+    });
 
     // Módulo 2 - Validación de Planes
     Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])

@@ -16,9 +16,11 @@
             <div class="text-lg font-semibold">Objetivos Estratégicos</div>
         </a>
 
-        <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white p-6 rounded-xl shadow text-center transition">
-            <div class="text-4xl mb-2">🌍</div>
-            <div class="text-lg font-semibold">Alineación PND / ODS</div>
+        <a href="{{ route('alineaciones-pnd-ods.index') }}">
+            <div class="bg-indigo-600 text-white rounded-lg p-4 flex flex-col items-center justify-center hover:bg-indigo-700 cursor-pointer transition">
+                <span class="text-3xl">🌍</span>
+                <span class="text-sm mt-2 text-center font-semibold">Alineación PND / ODS</span>
+            </div>
         </a>
 
         <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white p-6 rounded-xl shadow text-center transition">
