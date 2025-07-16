@@ -9,7 +9,7 @@ class UnidadOrganizacionalSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('unidad_organizacionales')->upsert([
+        $unidades = [
             ['nombre' => 'Dirección General'],
             ['nombre' => 'Dirección de Planificación'],
             ['nombre' => 'Unidad Técnica de Proyectos'],
@@ -17,7 +17,13 @@ class UnidadOrganizacionalSeeder extends Seeder
             ['nombre' => 'Área de Sistemas'],
             ['nombre' => 'Unidad de Auditoría Interna'],
             ['nombre' => 'Dirección de Evaluación Institucional'],
-        ], ['nombre'], ['nombre']);
+        ];
 
+        foreach ($unidades as $unidad) {
+            DB::table('unidad_organizacionales')->updateOrInsert(
+                ['nombre' => $unidad['nombre']], // condición de búsqueda
+                ['nombre' => $unidad['nombre']]  // datos a insertar si no existe
+            );
+        }
     }
 }

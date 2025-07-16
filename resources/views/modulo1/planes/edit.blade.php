@@ -14,8 +14,8 @@
         </div>
 
         <div>
-            <label class="block font-medium">Nivel</label>
-            <input type="text" name="nivel" value="{{ old('nivel', $plan->nivel) }}" class="w-full p-2 border rounded" required>
+            <label class="block font-medium">Nivel de Gobierno</label>
+            <input type="text" name="nivel_gobierno" value="{{ old('nivel_gobierno', $plan->nivel_gobierno) }}" class="w-full p-2 border rounded" required>
         </div>
 
         <div>
@@ -36,11 +36,11 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="block font-medium">Año de Inicio</label>
-                <input type="number" name="periodo_inicio" value="{{ old('periodo_inicio', $plan->periodo_inicio) }}" class="w-full p-2 border rounded" required>
+                <input type="date" name="anio_inicio" value="{{ old('anio_inicio', $plan->anio_inicio) }}" class="w-full p-2 border rounded" required>
             </div>
             <div>
                 <label class="block font-medium">Año de Fin</label>
-                <input type="number" name="periodo_fin" value="{{ old('periodo_fin', $plan->periodo_fin) }}" class="w-full p-2 border rounded" required>
+                <input type="date" name="anio_fin" value="{{ old('anio_fin', $plan->anio_fin) }}" class="w-full p-2 border rounded" required>
             </div>
         </div>
 

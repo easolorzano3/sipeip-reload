@@ -13,12 +13,19 @@ return new class extends Migration
     {
         Schema::create('plan_institucionales', function (Blueprint $table) {
             $table->id();
+
+            $table->string('entidad');
+            $table->string('nivel_gobierno');
+            $table->string('estado_institucional');
+            $table->string('codigo_institucional');
+
             $table->string('nombre');
-            $table->string('codigo')->nullable();
-            $table->year('periodo_inicio');
-            $table->year('periodo_fin');
-            $table->foreignId('unidad_id')->constrained('unidad_organizacionales');  // Asumiendo tabla 'unidades'
-            $table->enum('estado', ['borrador', 'en_revision', 'aprobado'])->default('borrador');
+            $table->string('codigo_plan')->nullable(); // renombrado de "codigo" por claridad
+            $table->date('anio_inicio');
+            $table->date('anio_fin');
+
+            $table->foreignId('unidad_id')->nullable()->constrained('unidad_organizacionales');
+            //$table->enum('estado', ['borrador', 'en_revision', 'aprobado'])->default('borrador');
             $table->timestamps();
         });
     }

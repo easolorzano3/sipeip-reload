@@ -11,7 +11,7 @@
             <div class="text-lg font-semibold">Planes Institucionales</div>
         </a>
 
-        <a href="#" class="bg-green-600 hover:bg-green-700 text-white p-6 rounded-xl shadow text-center transition">
+        <a href="{{ route('objetivos.index') }}" class="bg-green-600 hover:bg-green-700 text-white p-6 rounded-xl shadow text-center transition">
             <div class="text-4xl mb-2">🎯</div>
             <div class="text-lg font-semibold">Objetivos Estratégicos</div>
         </a>

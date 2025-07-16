@@ -26,13 +26,13 @@ class PlanInstitucionalController extends Controller
         // Validación completa
         $request->validate([
             'entidad' => 'required|string|max:255',
-            'nivel' => 'required|string|max:100',
+            'nivel_gobierno' => 'required|string|max:100',
             'codigo_institucional' => 'required|string|max:50',
             'estado_institucion' => 'required|string|in:Activo,Inactivo',
             'nombre' => 'required|string|max:255',
             'codigo' => 'nullable|string|max:50',
-            'periodo_inicio' => 'required|integer|min:2024',
-            'periodo_fin' => 'required|integer|gte:periodo_inicio',
+            'periodo_inicio' => 'required|date',
+            'periodo_fin' => 'required|date|after_or_equal:periodo_inicio',
             'unidades' => 'nullable|array',
             'unidades.*' => 'exists:unidad_organizacionales,id',
         ]);
@@ -40,13 +40,13 @@ class PlanInstitucionalController extends Controller
         //  Crear el plan institucional
         $plan = PlanInstitucional::create([
             'entidad' => $request->entidad,
-            'nivel' => $request->nivel,
+            'nivel_gobierno' => $request->nivel,
             'codigo_institucional' => $request->codigo_institucional,
             'estado_institucion' => $request->estado_institucion,
             'nombre' => $request->nombre,
             'codigo' => $request->codigo,
-            'periodo_inicio' => $request->periodo_inicio,
-            'periodo_fin' => $request->periodo_fin,
+            'anio_inicio' => $request->anio_inicio,
+            'anio_fin' => $request->anio_fin,
             'unidad_id' => auth()->user()->unidad_organizacional_id,
             'estado' => 'borrador',
         ]);
@@ -68,8 +68,8 @@ class PlanInstitucionalController extends Controller
     {
         $plan = PlanInstitucional::findOrFail($id);
         $unidades = UnidadOrganizacional::all();
-        $unidadesSeleccionadas = $plan->unidadesEjecutoras()->pluck('unidad_organizacional_id')->toArray();
-        
+        $unidadesSeleccionadas = $plan->unidadesEjecutoras->pluck('id')->toArray();
+        //dd($unidadesSeleccionadas);
         return view('modulo1.planes.edit', compact('plan', 'unidades', 'unidadesSeleccionadas'));
     }
 
@@ -77,12 +77,12 @@ class PlanInstitucionalController extends Controller
     {
         $request->validate([
             'entidad' => 'required|string|max:255',
-            'nivel' => 'required|string|max:100',
+            'nivel_gobierno' => 'required|string|max:100',
             'codigo_institucional' => 'required|string|max:50',
             'nombre' => 'required|string|max:255',
             'codigo' => 'nullable|string|max:255',
-            'periodo_inicio' => 'required|integer|min:2024',
-            'periodo_fin' => 'required|integer|gte:periodo_inicio',
+            'anio_inicio' => 'required|date',
+            'anio_fin' => 'required|date|after_or_equal:periodo_inicio',
             'estado_institucion' => 'required|in:activo,inactivo',
             'unidades' => 'nullable|array',
             'unidades.*' => 'exists:unidad_organizacionales,id',
@@ -91,12 +91,12 @@ class PlanInstitucionalController extends Controller
         $plan = PlanInstitucional::findOrFail($id);
         $plan->update([
             'entidad' => $request->entidad,
-            'nivel' => $request->nivel,
+            'nivel_gobierno' => $request->nivel,
             'codigo_institucional' => $request->codigo_institucional,
             'nombre' => $request->nombre,
             'codigo' => $request->codigo,
-            'periodo_inicio' => $request->periodo_inicio,
-            'periodo_fin' => $request->periodo_fin,
+            'anio_inicio' => $request->anio_inicio,
+            'anio_fin' => $request->anio_fin,
             'estado_institucion' => $request->estado_institucion,
         ]);
         //  Actualizar unidades ejecutoras

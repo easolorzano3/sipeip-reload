@@ -25,11 +25,7 @@ class PlanInstitucional extends Model
     //Relación con unidades ejecutoras (many-to-many)
     public function unidadesEjecutoras()
     {
-        return $this->belongsToMany(
-            UnidadOrganizacional::class,
-            'plan_unidad',
-            'plan_institucional_id',
-            'unidad_organizacional_id'
-        );
+        return $this->belongsToMany(UnidadOrganizacional::class, 'plan_unidad', 'plan_institucional_id', 'unidad_organizacional_id')->withTimestamps();
+    
     }
 }

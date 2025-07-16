@@ -45,7 +45,12 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['auth'])->prefix('modulo1')->group(function () {
         Route::resource('planes', App\Http\Controllers\Modulo1\PlanInstitucionalController::class);
-    });    
+    });
+    
+    Route::prefix('modulo1')->middleware(['auth'])->group(function () {
+        Route::resource('objetivos', \App\Http\Controllers\Modulo1\ObjetivoEstrategicoController::class);
+    });
+
 
     // Módulo 2 - Validación de Planes
     Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])

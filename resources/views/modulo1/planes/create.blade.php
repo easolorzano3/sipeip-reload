@@ -64,12 +64,12 @@
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Año de Inicio</label>
-                <input type="number" name="periodo_inicio" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_inicio') }}">
+                <input type="date" name="anio_inicio" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_inicio') }}">
             </div>
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Año de Fin</label>
-                <input type="number" name="periodo_fin" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_fin') }}">
+                <input type="date" name="anio_fin" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_fin') }}">
             </div>
         </div>
 

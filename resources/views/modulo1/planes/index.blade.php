@@ -22,6 +22,7 @@
                     <th class="px-4 py-2 text-left">Periodo</th>
                     <th class="px-4 py-2 text-left">Estado Inst.</th>
                     <th class="px-4 py-2 text-left">Estado Plan</th>
+                    <th class="px-4 py-2 text-left">Creado</th>
                     <th class="px-4 py-2 text-left">Acciones</th>
                 </tr>
             </thead>
@@ -29,13 +30,14 @@
                 @foreach ($planes as $plan)
                     <tr class="border-b">
                         <td class="px-4 py-2">{{ $plan->entidad }}</td>
-                        <td class="px-4 py-2">{{ $plan->nivel }}</td>
+                        <td class="px-4 py-2">{{ $plan->nivel_gobierno }}</td>
                         <td class="px-4 py-2">{{ $plan->codigo_institucional }}</td>
                         <td class="px-4 py-2">{{ $plan->nombre }}</td>
-                        <td class="px-4 py-2">{{ $plan->codigo }}</td>
-                        <td class="px-4 py-2">{{ $plan->periodo_inicio }} - {{ $plan->periodo_fin }}</td>
-                        <td class="px-4 py-2">{{ $plan->estado_institucion }}</td>
+                        <td class="px-4 py-2">{{ $plan->codigo_plan }}</td>
+                        <td class="px-4 py-2">{{ $plan->anio_inicio }} / {{ $plan->anio_fin }}</td>
+                        <td class="px-4 py-2">{{ $plan->estado_institucional }}</td>
                         <td class="px-4 py-2 capitalize">{{ $plan->estado }}</td>
+                        <td class="px-4 py-2">{{ $plan->created_at->format('Y-m-d') }}</td>
                         <td class="px-4 py-2">
                             <a href="#" class="text-blue-600 hover:underline mr-2">Ver</a>
                             <a href="{{ route('planes.edit', $plan->id) }}" class="text-yellow-600 hover:underline mr-2">Editar</a>
