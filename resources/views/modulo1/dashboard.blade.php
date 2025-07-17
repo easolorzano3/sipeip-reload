@@ -23,9 +23,9 @@
             </div>
         </a>
 
-        <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white p-6 rounded-xl shadow text-center transition">
-            <div class="text-4xl mb-2">📈</div>
-            <div class="text-lg font-semibold">Metas e Indicadores</div>
+        <a href="{{ route('metas.index') }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-4 rounded-lg shadow-md flex items-center justify-center space-x-2">
+            <i class="fas fa-chart-line text-xl"></i>
+            <span>Metas e Indicadores</span>
         </a>
 
         <a href="#" class="bg-pink-500 hover:bg-pink-600 text-white p-6 rounded-xl shadow text-center transition">

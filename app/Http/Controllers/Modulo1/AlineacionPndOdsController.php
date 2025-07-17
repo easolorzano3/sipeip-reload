@@ -41,16 +41,16 @@ class AlineacionPndOdsController extends Controller
         return redirect()->route('alineaciones-pnd-ods.index')->with('success', 'Alineación registrada correctamente.');
     }
 
-    public function edit(AlineacionPndOds $alineacion)
+    public function edit(AlineacionPndOds $alineacion_pnd_ods)
     {
         $objetivos = ObjetivoEstrategico::all();
         $pnd = PndObjetivo::all();
         $ods = OdsObjetivo::all();
 
-        return view('modulo1.alineaciones.edit', compact('alineacion', 'objetivos', 'pnd', 'ods'));
+        return view('modulo1.alineaciones.edit', compact('alineacion_pnd_ods', 'objetivos', 'pnd', 'ods'));
     }
 
-    public function update(Request $request, AlineacionPndOds $alineacion)
+    public function update(Request $request, AlineacionPndOds $alineacion_pnd_ods)
     {
         $request->validate([
             'objetivo_estrategico_id' => 'required|exists:objetivos_estrategicos,id',
@@ -60,14 +60,14 @@ class AlineacionPndOdsController extends Controller
             'justificacion' => 'nullable|string',
         ]);
 
-        $alineacion->update($request->all());
+        $alineacion_pnd_ods->update($request->all());
 
         return redirect()->route('alineaciones-pnd-ods.index')->with('success', 'Alineación actualizada correctamente.');
     }
 
-    public function destroy(AlineacionPndOds $alineacion)
+    public function destroy(AlineacionPndOds $alineaciones)
     {
-        $alineacion->delete();
+        $alineaciones>delete();
 
         return redirect()->route('alineaciones-pnd-ods.index')->with('success', 'Alineación eliminada correctamente.');
     }

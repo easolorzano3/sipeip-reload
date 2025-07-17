@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Modulo1Controller;
-use App\Http\Controllers\AlineacionPndOdsController;
+use App\Http\Controllers\Modulo1\AlineacionPndOdsController;
+use App\Http\Controllers\Modulo1\IndicadorController;
+use App\Http\Controllers\Modulo1\MetaController;
 
 use App\Http\Controllers\Modulo2Controller;
 use App\Http\Controllers\Modulo3Controller;
@@ -41,22 +43,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Módulo 1 - Planificación Institucional
-    Route::get('/modulo-planificacion-institucional', [Modulo1Controller::class, 'index'])
-        ->middleware('can:ver modulo planificación institucional')
-        ->name('modulo1.dashboard');
+Route::get('/modulo-planificacion-institucional', [Modulo1Controller::class, 'index'])
+    ->middleware('can:ver modulo planificación institucional')
+    ->name('modulo1.dashboard');
 
-    Route::middleware(['auth'])->prefix('modulo1')->group(function () {
-        Route::resource('planes', App\Http\Controllers\Modulo1\PlanInstitucionalController::class);
-    });
+Route::prefix('modulo1')->middleware(['auth'])->group(function () {
+
+    Route::resource('planes', App\Http\Controllers\Modulo1\PlanInstitucionalController::class);
+    Route::resource('objetivos', App\Http\Controllers\Modulo1\ObjetivoEstrategicoController::class);
     
-    Route::prefix('modulo1')->middleware(['auth'])->group(function () {
-        Route::resource('objetivos', \App\Http\Controllers\Modulo1\ObjetivoEstrategicoController::class);
+    Route::resource('alineaciones-pnd-ods', AlineacionPndOdsController::class)
+        ->parameters(['alineaciones-pnd-ods' => 'alineacion_pnd_ods']);
+
+    Route::resource('metas', MetaController::class);
+
+    // Indicadores anidados correctamente dentro de metas
+    Route::prefix('metas/{meta}')->group(function () {
+        Route::get('indicadores', [IndicadorController::class, 'index'])->name('indicadores.index');
+        Route::get('indicadores/create', [IndicadorController::class, 'create'])->name('indicadores.create');
+        Route::post('indicadores', [IndicadorController::class, 'store'])->name('indicadores.store');
+        Route::get('indicadores/{indicador}/edit', [IndicadorController::class, 'edit'])->name('indicadores.edit');
+        Route::put('indicadores/{indicador}', [IndicadorController::class, 'update'])->name('indicadores.update');
+        Route::delete('indicadores/{indicador}', [IndicadorController::class, 'destroy'])->name('indicadores.destroy');
     });
 
-    Route::prefix('modulo1')->group(function () {
-        Route::resource('alineaciones-pnd-ods', \App\Http\Controllers\Modulo1\AlineacionPndOdsController::class);
-    });
-
+    
     // Módulo 2 - Validación de Planes
     Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])
         ->middleware('can:ver modulo validación de planes')
@@ -101,5 +112,5 @@ Route::middleware('auth')->group(function () {
         Route::resource('configuracion', ConfiguracionController::class)->only(['index', 'update']);
     });
 });
-
+});
 require __DIR__.'/auth.php';

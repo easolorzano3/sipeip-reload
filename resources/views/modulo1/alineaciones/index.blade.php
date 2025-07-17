@@ -30,18 +30,18 @@
                 </tr>
             </thead>
             <tbody class="text-sm">
-                @foreach($alineaciones as $index => $alineacion)
+                @foreach($alineaciones as $index => $alineacion_pnd_ods)
                     <tr class="border-b hover:bg-gray-100">
                         <td class="px-4 py-2">{{ $index + 1 }}</td>
-                        <td class="px-4 py-2">{{ $alineacion->objetivoEstrategico->nombre ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $alineacion->pnd->nombre ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $alineacion->ods->nombre ?? '-' }}</td>
-                        <td class="px-4 py-2">{{ $alineacion->indicador }}</td>
+                        <td class="px-4 py-2">{{ $alineacion_pnd_ods->objetivoEstrategico->nombre ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $alineacion_pnd_ods->pnd->nombre ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $alineacion_pnd_ods->ods->nombre ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $alineacion_pnd_ods->indicador }}</td>
                         <td class="px-4 py-2 flex space-x-2">
-                            <a href="{{ route('alineaciones-pnd-ods.edit', $alineacion->id) }}"
+                            <a href="{{ route('alineaciones-pnd-ods.edit', $alineacion_pnd_ods->id) }}"
                                class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded">✏️ Editar</a>
 
-                            <form action="{{ route('alineaciones-pnd-ods.destroy', $alineacion->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta alineación?')">
+                            <form action="{{ route('alineaciones-pnd-ods.destroy', $alineacion_pnd_ods->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta alineación?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">

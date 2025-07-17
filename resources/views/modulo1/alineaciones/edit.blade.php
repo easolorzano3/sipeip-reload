@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('alineaciones-pnd-ods.update', $alineacion->id) }}" method="POST" class="space-y-4">
+    <form action="{{ route('alineaciones-pnd-ods.update', $alineacion_pnd_ods->id) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
 
@@ -24,7 +24,7 @@
                 <select name="objetivo_estrategico_id" required class="w-full border border-gray-300 rounded px-3 py-2">
                     <option value="">Seleccione...</option>
                     @foreach($objetivos as $item)
-                        <option value="{{ $item->id }}" {{ $alineacion->objetivo_estrategico_id == $item->id ? 'selected' : '' }}>
+                        <option value="{{ $item->id }}" {{ $alineacion_pnd_ods->objetivo_estrategico_id == $item->id ? 'selected' : '' }}>
                             {{ $item->nombre }}
                         </option>
                     @endforeach
@@ -36,7 +36,7 @@
                 <select name="pnd_id" class="w-full border border-gray-300 rounded px-3 py-2">
                     <option value="">Seleccione...</option>
                     @foreach($pnd as $item)
-                        <option value="{{ $item->id }}" {{ $alineacion->pnd_id == $item->id ? 'selected' : '' }}>
+                        <option value="{{ $item->id }}" {{ $alineacion_pnd_ods->pnd_id == $item->id ? 'selected' : '' }}>
                             {{ $item->nombre }}
                         </option>
                     @endforeach
@@ -48,7 +48,7 @@
                 <select name="ods_id" class="w-full border border-gray-300 rounded px-3 py-2">
                     <option value="">Seleccione...</option>
                     @foreach($ods as $item)
-                        <option value="{{ $item->id }}" {{ $alineacion->ods_id == $item->id ? 'selected' : '' }}>
+                        <option value="{{ $item->id }}" {{ $alineacion_pnd_ods->ods_id == $item->id ? 'selected' : '' }}>
                             {{ $item->nombre }}
                         </option>
                     @endforeach
@@ -57,13 +57,13 @@
 
             <div>
                 <label class="block text-sm font-medium mb-1">Indicador</label>
-                <input type="text" name="indicador" value="{{ $alineacion->indicador }}" class="w-full border border-gray-300 rounded px-3 py-2">
+                <input type="text" name="indicador" value="{{ $alineacion_pnd_ods->indicador }}" class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
         </div>
 
         <div>
             <label class="block text-sm font-medium mb-1">Justificación</label>
-            <textarea name="justificacion" rows="3" class="w-full border border-gray-300 rounded px-3 py-2">{{ $alineacion->justificacion }}</textarea>
+            <textarea name="justificacion" rows="3" class="w-full border border-gray-300 rounded px-3 py-2">{{ $alineacion_pnd_ods->justificacion }}</textarea>
         </div>
 
         <div class="flex justify-between items-center mt-4">
