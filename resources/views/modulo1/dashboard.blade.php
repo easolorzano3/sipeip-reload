@@ -28,19 +28,10 @@
             <span>Metas e Indicadores</span>
         </a>
 
-        <a href="#" class="bg-pink-500 hover:bg-pink-600 text-white p-6 rounded-xl shadow text-center transition">
+        <a href="{{ route('actividades.index') }}" class="bg-pink-500 hover:bg-pink-600 text-white p-6 rounded-xl shadow text-center transition">
             <div class="text-4xl mb-2">📅</div>
             <div class="text-lg font-semibold">Actividades (POA)</div>
-        </a>
-
-        <a href="#" class="bg-rose-500 hover:bg-rose-600 text-white p-6 rounded-xl shadow text-center transition">
-            <div class="text-4xl mb-2">🕒</div>
-            <div class="text-lg font-semibold">Cronograma y Responsables</div>
-        </a>
-
-        <a href="#" class="bg-teal-600 hover:bg-teal-700 text-white p-6 rounded-xl shadow text-center transition">
-            <div class="text-4xl mb-2">💵</div>
-            <div class="text-lg font-semibold">Presupuesto por Actividad</div>
+            <p class="text-sm mt-1">Cronograma, responsables y presupuesto en un solo flujo</p>
         </a>
 
         <a href="#" class="bg-slate-700 hover:bg-slate-800 text-white p-6 rounded-xl shadow text-center transition">

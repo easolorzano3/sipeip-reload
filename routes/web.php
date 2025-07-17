@@ -7,6 +7,8 @@ use App\Http\Controllers\Modulo1Controller;
 use App\Http\Controllers\Modulo1\AlineacionPndOdsController;
 use App\Http\Controllers\Modulo1\IndicadorController;
 use App\Http\Controllers\Modulo1\MetaController;
+use App\Http\Controllers\Modulo1\ActividadPoaController;
+
 
 use App\Http\Controllers\Modulo2Controller;
 use App\Http\Controllers\Modulo3Controller;
@@ -66,6 +68,7 @@ Route::prefix('modulo1')->middleware(['auth'])->group(function () {
         Route::put('indicadores/{indicador}', [IndicadorController::class, 'update'])->name('indicadores.update');
         Route::delete('indicadores/{indicador}', [IndicadorController::class, 'destroy'])->name('indicadores.destroy');
     });
+    Route::resource('modulo1/actividades', ActividadPoaController::class)->names('actividades');
 
     
     // Módulo 2 - Validación de Planes
