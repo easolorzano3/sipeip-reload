@@ -34,22 +34,24 @@
             <p class="text-sm mt-1">Cronograma, responsables y presupuesto en un solo flujo</p>
         </a>
 
-        <a href="#" class="bg-slate-700 hover:bg-slate-800 text-white p-6 rounded-xl shadow text-center transition">
+        <a href="{{ route('documentos.index') }}" class="bg-slate-700 hover:bg-slate-800 text-white p-6 rounded-xl shadow text-center transition">
             <div class="text-4xl mb-2">📎</div>
             <div class="text-lg font-semibold">Documentos de Respaldo</div>
         </a>
 
-        <a href="#" class="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-xl shadow text-center transition">
+        <a href="{{ route('revision.index') }}" class="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-xl shadow text-center transition">
             <div class="text-4xl mb-2">📤</div>
             <div class="text-lg font-semibold">Envío a Revisión</div>
         </a>
 
-        <a href="#" class="bg-gray-700 hover:bg-gray-800 text-white p-6 rounded-xl shadow text-center transition">
-            <div class="text-4xl mb-2">🧾</div>
-            <div class="text-lg font-semibold">Versiones e Historial</div>
+        <a href="{{ route('modulo1.versiones.index') }}" class="block bg-gray-800 hover:bg-gray-700 text-white text-center p-6 rounded-lg shadow-lg transition">
+            <div class="flex justify-center mb-2">
+                <i class="fas fa-history text-3xl"></i>
+            </div>
+            <div class="font-semibold text-lg">Versiones e Historial</div>
         </a>
 
-        <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white p-6 rounded-xl shadow text-center transition">
+        <a href="{{ route('resoluciones.index') }}" class="bg-orange-500 hover:bg-orange-600 text-white p-6 rounded-xl shadow text-center transition">
             <div class="text-4xl mb-2">🗂</div>
             <div class="text-lg font-semibold">Resoluciones y Publicación</div>
         </a>

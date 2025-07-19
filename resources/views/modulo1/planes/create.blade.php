@@ -26,12 +26,12 @@
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Nivel de Gobierno</label>
-                <select name="nivel" required class="w-full rounded border-gray-300 mt-1">
+                <select name="nivel_gobierno" required class="w-full rounded border-gray-300 mt-1">
                     <option value="">Seleccione</option>
-                    <option value="Nacional" {{ old('nivel') == 'Nacional' ? 'selected' : '' }}>Nacional</option>
-                    <option value="Zonal" {{ old('nivel') == 'Zonal' ? 'selected' : '' }}>Zonal</option>
-                    <option value="Provincial" {{ old('nivel') == 'Provincial' ? 'selected' : '' }}>Provincial</option>
-                    <option value="Cantonal" {{ old('nivel') == 'Cantonal' ? 'selected' : '' }}>Cantonal</option>
+                    <option value="Nacional" {{ old('nivel_gobierno') == 'Nacional' ? 'selected' : '' }}>Nacional</option>
+                    <option value="Zonal" {{ old('nivel_gobierno') == 'Zonal' ? 'selected' : '' }}>Zonal</option>
+                    <option value="Provincial" {{ old('nivel_gobierno') == 'Provincial' ? 'selected' : '' }}>Provincial</option>
+                    <option value="Cantonal" {{ old('nivel_gobierno') == 'Cantonal' ? 'selected' : '' }}>Cantonal</option>
                 </select>
             </div>
 
@@ -42,10 +42,11 @@
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Estado Institucional</label>
-                <select name="estado_institucion" required class="w-full rounded border-gray-300 mt-1">
+                <select name="estado_institucional" required class="w-full rounded border-gray-300 mt-1">
                     <option value="">Seleccione</option>
-                    <option value="Activo" {{ old('estado_institucion') == 'Activo' ? 'selected' : '' }}>Activo</option>
-                    <option value="Inactivo" {{ old('estado_institucion') == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+                    <option value="Activo" @selected(old('estado_institucional') == 'Activo')>Activo</option>
+                    <option value="Inactivo" @selected(old('estado_institucional') == 'Inactivo')>Inactivo</option>
+
                 </select>
             </div>
         </div>
@@ -59,17 +60,17 @@
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Código del Plan (opcional)</label>
-                <input type="text" name="codigo" class="w-full rounded border-gray-300 mt-1" placeholder="Ej: PEI2024" value="{{ old('codigo') }}">
+                <input type="text" name="codigo_plan" class="w-full rounded border-gray-300 mt-1" placeholder="Ej: PEI2024" value="{{ old('codigo_plan') }}">
             </div>
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Año de Inicio</label>
-                <input type="date" name="anio_inicio" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_inicio') }}">
+                <input type="date" name="anio_inicio" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('anio_inicio') }}">
             </div>
 
             <div>
                 <label class="block font-medium text-sm text-gray-700">Año de Fin</label>
-                <input type="date" name="anio_fin" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('periodo_fin') }}">
+                <input type="date" name="anio_fin" min="2020" required class="w-full rounded border-gray-300 mt-1" value="{{ old('anio_fin') }}">
             </div>
         </div>
 

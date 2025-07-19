@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Modulo1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\VersionHistorial;
+use Illuminate\Support\Facades\Auth;
 use App\Models\ActividadPoa;
 use App\Models\PlanInstitucional;
 use App\Models\ObjetivoEstrategico;
@@ -45,6 +47,14 @@ class ActividadPoaController extends Controller
         ]);
 
         ActividadPoa::create($request->all());
+        // Registro en el historial
+        VersionHistorial::create([
+            'plan_id' => $request->plan_id,
+            'accion' => 'Registro de Actividad POA',
+            'descripcion' => 'Se registró la actividad "' . $request->nombre . '" bajo la meta ID ' . $request->meta_id,
+            'usuario_id' => Auth::id(),
+            'fecha_accion' => now(),
+        ]);
 
         return redirect()->route('actividades.index')->with('success', 'Actividad registrada correctamente.');
     }

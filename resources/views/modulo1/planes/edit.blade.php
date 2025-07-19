@@ -3,6 +3,16 @@
 @section('content')
 <div class="max-w-4xl mx-auto py-8 px-4">
     <h2 class="text-2xl font-bold mb-6">✏️ Editar Plan Institucional</h2>
+    @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded mb-4">
+            <strong>¡Ups! Algo salió mal.</strong>
+            <ul class="list-disc pl-5 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form action="{{ route('planes.update', $plan->id) }}" method="POST" class="space-y-4">
         @csrf
@@ -30,7 +40,7 @@
 
         <div>
             <label class="block font-medium">Código (opcional)</label>
-            <input type="text" name="codigo" value="{{ old('codigo', $plan->codigo) }}" class="w-full p-2 border rounded">
+            <input type="text" name="codigo_plan" value="{{ old('codigo_plan', $plan->codigo_plan) }}" class="w-full p-2 border rounded">
         </div>
 
         <div class="grid grid-cols-2 gap-4">
@@ -46,7 +56,7 @@
 
         <div>
             <label class="block font-medium">Estado Institución</label>
-            <select name="estado_institucion" class="w-full p-2 border rounded" required>
+            <select name="estado_institucional" class="w-full p-2 border rounded" required>
                 <option value="Activo" {{ $plan->estado_institucion == 'Activo' ? 'selected' : '' }}>Activo</option>
                 <option value="Inactivo" {{ $plan->estado_institucion == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
             </select>
