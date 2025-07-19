@@ -33,7 +33,7 @@
                     <td class="px-4 py-2">{{ $envio->estado_envio }}</td>
                     <td class="px-4 py-2">{{ \Carbon\Carbon::parse($envio->fecha_envio)->format('d/m/Y') }}</td>
                     <td class="px-4 py-2">
-                        <a href="{{ route('revision.edit', $envio->id) }}" class="text-blue-600 hover:underline">✏️ Editar</a>
+                        
                         <form action="{{ route('revision.destroy', $envio->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar este envío?')">
                             @csrf
                             @method('DELETE')

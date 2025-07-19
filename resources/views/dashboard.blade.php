@@ -22,7 +22,7 @@
 
                 {{-- Módulo 2 --}}
                 @can('ver modulo validación de planes')
-                <a href="{{ route('modulo2.dashboard') }}">
+                <a href="{{ route('validaciones.index') }}">
                     <x-dashboard-card 
                         color="fuchsia" 
                         icon="fas fa-check-circle" 

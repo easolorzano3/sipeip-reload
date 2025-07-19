@@ -18,6 +18,9 @@ use App\Http\Controllers\Modulo1\ResolucionController;
 
 // Módulo 2 al 8
 use App\Http\Controllers\Modulo2Controller;
+use App\Http\Controllers\Modulo2\ValidacionPlanController;
+
+
 use App\Http\Controllers\Modulo3Controller;
 use App\Http\Controllers\Modulo4Controller;
 use App\Http\Controllers\Modulo5Controller;
@@ -87,9 +90,14 @@ Route::prefix('modulo-planificacion-institucional')->middleware(['auth'])->group
 });
 
 // Módulo 2 - Validación de Planes
-Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])
-    ->middleware(['auth', 'can:ver modulo validación de planes'])
-    ->name('modulo2.dashboard');
+// Redireccionar acceso directo al módulo 2 hacia el listado de validaciones
+Route::redirect('/modulo-validacion-planes', '/modulo-validacion-planes/validaciones');
+Route::prefix('modulo-validacion-planes')->middleware(['auth'])->group(function () {
+    Route::resource('validaciones', ValidacionPlanController::class)->names('validaciones');
+});
+
+
+
 
 // Módulo 3 - Gestión de Proyectos
 Route::get('/modulo-gestion-proyectos', [Modulo3Controller::class, 'index'])

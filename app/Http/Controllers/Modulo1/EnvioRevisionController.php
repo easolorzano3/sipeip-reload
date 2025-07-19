@@ -13,13 +13,19 @@ class EnvioRevisionController extends Controller
 {
     public function index()
     {
-        $envios = EnvioRevision::with('plan')->get();
+        $envios = EnvioRevision::with('plan.estado')
+            ->whereHas('plan.estado', function ($q) {
+                $q->whereIn('nombre', ['enviado']);
+            })
+            ->get();
+
         return view('modulo1.revision.index', compact('envios'));
     }
 
     public function create()
     {
-        $planes = PlanInstitucional::all();
+        $estadoPermitidos = EstadoPlan::whereIn('nombre', ['borrador', 'observado'])->pluck('id');
+        $planes = PlanInstitucional::whereIn('estado_id', $estadoPermitidos)->get();
         return view('modulo1.revision.create', compact('planes'));
     }
 
@@ -82,8 +88,34 @@ class EnvioRevisionController extends Controller
 
     public function destroy($id)
     {
-        EnvioRevision::findOrFail($id)->delete();
+        $envio = EnvioRevision::findOrFail($id);
+        
+        $plan = PlanInstitucional::find($envio->plan_id); // buscamos explícitamente el plan
+
+        if ($plan) {
+            $estadoBorrador = EstadoPlan::where('nombre', 'borrador')->first();
+            if ($estadoBorrador) {
+                $plan->estado_id = $estadoBorrador->id;
+                $plan->save();
+            }
+        }        // ✅ Validación temporal para confirmar el cambio de estado
+                //dd([
+                  //  'plan_id' => $plan->id,
+                    //'nuevo_estado_id' => $estadoBorrador->id,
+                    //'estado_actual_id' => $plan->estado_id, // estado_id numérico
+                //]);
+            //} else {
+              //  dd('❌ Estado "borrador" no encontrado en la tabla estado_plans');
+            //}
+        //} else {
+          //  dd('❌ Plan no encontrado');
+        //}
+
+        // Esto no se ejecutará si usamos dd arriba
+        $envio->delete();
 
         return redirect()->route('revision.index')->with('success', 'Registro eliminado correctamente.');
     }
-}
+
+
+} 
