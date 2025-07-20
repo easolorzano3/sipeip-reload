@@ -86,12 +86,18 @@ class ActividadPoaController extends Controller
             'presupuesto_estimado' => 'required|numeric|min:0',
             'fuente_financiamiento' => 'nullable|string|max:255',
             'indicador_resultado' => 'nullable|string|max:255',
+            // ❌ NO pongas 'requiere_inversion' aquí
         ]);
 
-        $actividad->update($request->all());
+        //Añade el campo manualmente al array de datos
+        $data = $request->all();
+        $data['requiere_inversion'] = $request->has('requiere_inversion');
+
+        $actividad->update($data);
 
         return redirect()->route('actividades.index')->with('success', 'Actividad actualizada correctamente.');
     }
+
 
     public function destroy($id)
     {

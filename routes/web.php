@@ -16,12 +16,15 @@ use App\Http\Controllers\Modulo1\EnvioRevisionController;
 use App\Http\Controllers\Modulo1\VersionHistorialController;
 use App\Http\Controllers\Modulo1\ResolucionController;
 
-// Módulo 2 al 8
+// Módulo 2
 use App\Http\Controllers\Modulo2Controller;
 use App\Http\Controllers\Modulo2\ValidacionPlanController;
 
-
+// Módulo 3
 use App\Http\Controllers\Modulo3Controller;
+use App\Http\Controllers\Modulo3\ProgramaInversionController;
+use App\Http\Controllers\Modulo3\ProyectoInversionController;
+
 use App\Http\Controllers\Modulo4Controller;
 use App\Http\Controllers\Modulo5Controller;
 use App\Http\Controllers\Modulo6Controller;
@@ -97,12 +100,23 @@ Route::prefix('modulo-validacion-planes')->middleware(['auth'])->group(function 
 });
 
 
-
-
 // Módulo 3 - Gestión de Proyectos
+
+
 Route::get('/modulo-gestion-proyectos', [Modulo3Controller::class, 'index'])
     ->middleware(['auth', 'can:ver modulo proyectos'])
     ->name('modulo3.dashboard');
+
+Route::prefix('modulo3')->middleware(['auth'])->group(function () {
+    Route::get('planes/{id}/programas', [ProgramaInversionController::class, 'indexPorPlan'])
+        ->name('programas.indexPorPlan');
+    Route::get('programas/{id}/proyectos', [ProyectoInversionController::class, 'indexPorPrograma'])
+        ->name('proyectos.indexPorPrograma');
+
+    Route::resource('programas', ProgramaInversionController::class)->names('programas');
+    Route::resource('proyectos', ProyectoInversionController::class)->names('proyectos');
+});
+
 
 // Módulo 4 - Priorización y Viabilidad
 Route::get('/modulo-priorizacion-viabilidad', [Modulo4Controller::class, 'index'])

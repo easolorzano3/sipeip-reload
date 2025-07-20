@@ -23,6 +23,7 @@ class ActividadPoa extends Model
         'presupuesto_estimado',
         'fuente_financiamiento',
         'indicador_resultado',
+        'requiere_inversion',
     ];
 
     // Relaciones
@@ -45,5 +46,10 @@ class ActividadPoa extends Model
     public function responsable()
     {
         return $this->belongsTo(User::class, 'responsable_id');
+    }
+
+    public function proyectos()
+    {
+        return $this->hasMany(ProyectoInversion::class, 'actividad_poa_id');
     }
 }

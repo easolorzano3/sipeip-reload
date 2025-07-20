@@ -34,4 +34,33 @@ class PlanInstitucional extends Model
     {
         return $this->belongsTo(EstadoPlan::class, 'estado_id');
     }
+
+    public function programas()
+    {
+        return $this->hasMany(ProgramaInversion::class, 'plan_id');
+    }
+
+    public function proyectos()
+    {
+        return $this->hasMany(ProyectoInversion::class, 'plan_id');
+    }
+
+    public function requiereInversion()
+    {
+        $umbral = 500000;
+
+        return $this->actividades()
+            ->where(function ($query) use ($umbral) {
+                $query->where('presupuesto_estimado', '>', $umbral)
+                    ->orWhere('requiere_inversion', true);
+            })
+            ->exists();
+    }
+
+    public function actividades()
+    {
+        return $this->hasMany(ActividadPoa::class, 'plan_id');
+    }
+
+    
 }

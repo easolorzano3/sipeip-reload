@@ -39,7 +39,16 @@ class ObjetivoEstrategicoController extends Controller
             'estado' => 'required|in:Activo,Inactivo',
         ]);
 
-        ObjetivoEstrategico::create($request->all());
+        ObjetivoEstrategico::create([
+            'plan_institucional_id' => $request->plan_institucional_id,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'eje_estrategico_id' => $request->eje_estrategico_id,
+            'politica_nacional_id' => $request->politica_nacional_id,
+            'periodo_inicio' => $request->periodo_inicio,
+            'periodo_fin' => $request->periodo_fin,
+            'estado' => $request->estado,
+        ]);
 
         return redirect()->route('objetivos.index')->with('success', 'Objetivo registrado correctamente.');
     }

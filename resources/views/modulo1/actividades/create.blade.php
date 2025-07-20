@@ -93,6 +93,14 @@
             </div>
         </div>
 
+        <div class="mt-2">
+            <label>
+                <input type="checkbox" name="requiere_inversion" value="1"
+                    {{ old('requiere_inversion', $actividad->requiere_inversion ?? false) ? 'checked' : '' }}>
+                Esta actividad requiere inversión pública
+            </label>
+        </div>
+
         <div>
             <label class="block mb-1 font-semibold">Indicador de Resultado</label>
             <input type="text" name="indicador_resultado" class="w-full border rounded p-2">

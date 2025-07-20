@@ -15,8 +15,8 @@ class ObjetivoEstrategico extends Model
         'politica_nacional_id',
         'nombre',
         'descripcion',
-        'anio_inicio',
-        'anio_fin',
+        'periodo_inicio',
+        'periodo_fin',
         'estado',
     ];
 
