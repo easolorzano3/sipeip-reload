@@ -46,7 +46,7 @@
 
                 {{-- Módulo 4 --}}
                 @can('ver modulo priorización y viabilidad')
-                <a href="{{ route('modulo4.dashboard') }}">
+                <a href="{{ route('modulo4.priorizacion.index') }}">
                     <x-dashboard-card 
                         color="yellow" 
                         icon="fas fa-tasks" 

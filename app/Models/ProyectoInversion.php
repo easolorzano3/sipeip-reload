@@ -49,4 +49,10 @@ class ProyectoInversion extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function dictamenTecnico()
+    {
+        return $this->hasOne(DictamenTecnico::class, 'proyecto_id');
+    }
+
 }

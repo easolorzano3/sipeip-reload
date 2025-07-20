@@ -26,6 +26,8 @@ use App\Http\Controllers\Modulo3\ProgramaInversionController;
 use App\Http\Controllers\Modulo3\ProyectoInversionController;
 
 use App\Http\Controllers\Modulo4Controller;
+use App\Http\Controllers\Modulo4\DictamenTecnicoController;
+
 use App\Http\Controllers\Modulo5Controller;
 use App\Http\Controllers\Modulo6Controller;
 use App\Http\Controllers\Modulo7Controller;
@@ -119,9 +121,11 @@ Route::prefix('modulo3')->middleware(['auth'])->group(function () {
 
 
 // Módulo 4 - Priorización y Viabilidad
-Route::get('/modulo-priorizacion-viabilidad', [Modulo4Controller::class, 'index'])
-    ->middleware(['auth', 'can:ver modulo priorización y viabilidad'])
-    ->name('modulo4.dashboard');
+// Ruta personalizada para mostrar el index
+Route::get('/modulo-priorizacion-viabilidad', [DictamenTecnicoController::class, 'index'])->name('modulo4.priorizacion.index');
+
+// CRUD completo para dictámenes
+Route::resource('modulo4/dictamenes', DictamenTecnicoController::class);
 
 // Módulo 5 - Asignación Presupuestaria
 Route::get('/modulo-asignacion-presupuestaria', [Modulo5Controller::class, 'index'])
