@@ -55,4 +55,15 @@ class ProyectoInversion extends Model
         return $this->hasOne(DictamenTecnico::class, 'proyecto_id');
     }
 
+
+    public function asignacionPresupuestaria()
+    {
+        return $this->hasOne(\App\Models\AsignacionPresupuestaria::class, 'proyecto_id');
+    }
+
+    public function financiamientos()
+    {
+        return $this->hasMany(\App\Models\FinanciamientoProyecto::class, 'proyecto_id');
+    }
+
 }

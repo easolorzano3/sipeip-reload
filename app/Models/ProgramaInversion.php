@@ -29,7 +29,7 @@ class ProgramaInversion extends Model
     // Relación: un programa pertenece a un plan institucional
     public function plan()
     {
-        return $this->belongsTo(PlanInstitucional::class, 'plan_id');
+        return $this->belongsTo(\App\Models\PlanInstitucional::class, 'plan_id');
     }
 
     // Relación con el usuario creador
@@ -37,4 +37,7 @@ class ProgramaInversion extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    
+
 }

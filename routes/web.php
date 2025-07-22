@@ -29,6 +29,11 @@ use App\Http\Controllers\Modulo4Controller;
 use App\Http\Controllers\Modulo4\DictamenTecnicoController;
 
 use App\Http\Controllers\Modulo5Controller;
+use App\Http\Controllers\Modulo5\AsignacionPresupuestariaController;
+use App\Http\Controllers\Modulo5\TechoMultianualController;
+use App\Http\Controllers\Modulo5\FinanciamientoProyectoController;
+use App\Http\Controllers\Modulo5\EnvioSigefController;
+
 use App\Http\Controllers\Modulo6Controller;
 use App\Http\Controllers\Modulo7Controller;
 use App\Http\Controllers\Modulo8Controller;
@@ -128,9 +133,38 @@ Route::get('/modulo-priorizacion-viabilidad', [DictamenTecnicoController::class,
 Route::resource('modulo4/dictamenes', DictamenTecnicoController::class);
 
 // Módulo 5 - Asignación Presupuestaria
-Route::get('/modulo-asignacion-presupuestaria', [Modulo5Controller::class, 'index'])
+Route::get('/modulo-asignacion-presupuestaria', [AsignacionPresupuestariaController::class, 'index'])
     ->middleware(['auth', 'can:ver modulo asignación presupuestaria'])
     ->name('modulo5.dashboard');
+Route::prefix('modulo-asignacion-presupuestaria')->group(function () {
+    Route::get('/techos/{id}/create', [TechoMultianualController::class, 'create'])->name('techos.create');
+    Route::post('/techos', [TechoMultianualController::class, 'store'])->name('techos.store');
+    // Asignación de fuentes de financiamiento
+    Route::get('proyectos/{proyecto}/asignar-fuentes', [FinanciamientoProyectoController::class, 'create'])->name('financiamientos.create');
+    Route::post('financiamientos', [FinanciamientoProyectoController::class, 'store'])->name('financiamientos.store');
+    Route::get('modulo-asignacion-presupuestaria/proyectos/{proyecto}/ver-financiamiento', [FinanciamientoProyectoController::class, 'show'])->name('financiamientos.show');
+    Route::get('/modulo-asignacion-presupuestaria/financiamientos/{id}/edit', [FinanciamientoProyectoController::class, 'edit'])->name('financiamientos.edit');
+    Route::put('/modulo-asignacion-presupuestaria/financiamientos/{id}', [FinanciamientoProyectoController::class, 'update'])->name('financiamientos.update');
+    Route::delete('/modulo-asignacion-presupuestaria/financiamientos/{id}', [FinanciamientoProyectoController::class, 'destroy'])->name('financiamientos.destroy');
+    Route::get('proyectos/{id}/certificacion', [FinanciamientoProyectoController::class, 'generarCertificacion'])->name('modulo5.proyectos.certificacion');
+
+    Route::prefix('modulo5')->middleware(['auth'])->group(function () {
+        Route::get('envios-sigef', [EnvioSigefController::class, 'index'])->name('envios-sigef.index');
+        Route::get('envios-sigef/{proyecto_id}/crear', [EnvioSigefController::class, 'create'])->name('envios-sigef.create');
+        Route::post('envios-sigef', [EnvioSigefController::class, 'store'])->name('envios-sigef.store');
+    
+        Route::post('modulo5/proyectos/{proyecto}/enviar-esigef', [FinanciamientoProyectoController::class, 'enviarEsigef'])->name('financiamientos.enviarEsigef');
+        Route::get('proyectos/{proyecto}/enviar-esigef', [EnvioSigefController::class, 'formulario'])->name('esigef.formulario');
+    });
+
+    // routes/web.php
+
+    Route::get('/modulo-asignacion-presupuestaria/proyectos/{proyecto}/show', [App\Http\Controllers\Modulo5\FinanciamientoProyectoController::class, 'show'])
+        ->name('modulo5.proyectos.show');
+
+
+
+});
 
 // Módulo 6 - Ejecución y Seguimiento
 Route::get('/modulo-ejecucion-seguimiento', [Modulo6Controller::class, 'index'])
