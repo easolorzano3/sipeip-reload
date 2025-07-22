@@ -131,5 +131,10 @@ class ProyectoInversionController extends Controller
             ->with('success', 'Proyecto eliminado correctamente.');
     }
 
+    public function show($id)
+    {
+        $proyecto = ProyectoInversion::with(['avancesFinancieros.usuario', 'avancesFisicos.usuario', 'avancesFisicos.meta'])->findOrFail($id);
+        return view('modulo3.proyectos.show', compact('proyecto'));
+    }
     // TODO: agregar métodos show, edit, update, destroy en las siguientes etapas
 }

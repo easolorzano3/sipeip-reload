@@ -35,6 +35,14 @@ use App\Http\Controllers\Modulo5\FinanciamientoProyectoController;
 use App\Http\Controllers\Modulo5\EnvioSigefController;
 
 use App\Http\Controllers\Modulo6Controller;
+use App\Http\Controllers\Modulo6\AvanceFisicoController;
+use App\Http\Controllers\Modulo6\AvanceFinancieroController;
+use App\Http\Controllers\Modulo6\ReporteAvanceController;
+use App\Http\Controllers\Modulo6\DocumentoEvidenciaController;
+use App\Http\Controllers\Modulo6\PlanificacionEjecutivaController;
+
+
+
 use App\Http\Controllers\Modulo7Controller;
 use App\Http\Controllers\Modulo8Controller;
 use App\Http\Controllers\Modulo8\UsuarioController;
@@ -122,6 +130,10 @@ Route::prefix('modulo3')->middleware(['auth'])->group(function () {
 
     Route::resource('programas', ProgramaInversionController::class)->names('programas');
     Route::resource('proyectos', ProyectoInversionController::class)->names('proyectos');
+
+    //RELACION PERTENECIENTE AL MODULO 6
+    Route::get('modulo3/proyectos-inversion/{id}', [ProyectoInversionController::class, 'show'])->name('proyectos-inversion.show');
+
 });
 
 
@@ -167,9 +179,46 @@ Route::prefix('modulo-asignacion-presupuestaria')->group(function () {
 });
 
 // Módulo 6 - Ejecución y Seguimiento
-Route::get('/modulo-ejecucion-seguimiento', [Modulo6Controller::class, 'index'])
+Route::get('/modulo-ejecucion-seguimiento', [Modulo6Controller::class, 'dashboard'])
     ->middleware(['auth', 'can:ver modulo ejecución y seguimiento'])
     ->name('modulo6.dashboard');
+
+Route::resource('modulo6/avance-financiero', AvanceFinancieroController::class)
+    ->middleware(['auth'])
+    ->names('avance-financiero');
+
+Route::get('avance-financiero/{proyecto}/certificacion', [AvanceFinancieroController::class, 'generarCertificacion'])
+    ->name('modulo6.avance-financiero.certificacion')
+    ->middleware(['auth']);
+
+
+    Route::resource('modulo6/avance-fisico', AvanceFisicoController::class)->middleware(['auth']);
+
+// Módulo 6 - Visualización de seguimiento por proyecto
+Route::get('/modulo6/proyectos/nombre/{nombre}', [Modulo6Controller::class, 'showPorNombre'])
+    ->name('modulo6.proyectos.showPorNombre')
+    ->middleware(['auth']);
+
+Route::get('/modulo6/reporte-avances', [App\Http\Controllers\Modulo6Controller::class, 'reporteAvances'])
+    ->name('modulo6.reporte-avances')
+    ->middleware(['auth']);
+
+Route::get('/modulo6/reporte-avances/pdf', [App\Http\Controllers\Modulo6\ReporteAvanceController::class, 'generarPDF'])
+    ->name('reporte-avances.generar-pdf')
+    ->middleware(['auth']);
+
+Route::resource('modulo6/documentos-evidencias', DocumentoEvidenciaController::class)
+    ->names('documentos-evidencias')
+    ->middleware(['auth']);
+
+Route::post('/modulo6/planificaciones', [PlanificacionEjecutivaController::class, 'store'])->name('planificaciones-ejecutivas.store');
+Route::delete('modulo6/planificaciones-ejecutivas/{id}', [PlanificacionEjecutivaController::class, 'destroy'])->name('planificaciones-ejecutivas.destroy');
+
+Route::get('/modulo6/reportes/{id}', [Modulo6Controller::class, 'reporte'])->name('modulo6.reportes.show');
+
+Route::get('modulo6/reporte/{id}/pdf', [Modulo6Controller::class, 'generarReportePdf'])->name('modulo6.reporte.pdf');
+
+
 
 // Módulo 7 - Evaluación Final y Cierre
 Route::get('/modulo-evaluacion-final', [Modulo7Controller::class, 'index'])

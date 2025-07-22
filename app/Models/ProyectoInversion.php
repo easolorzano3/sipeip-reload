@@ -66,4 +66,22 @@ class ProyectoInversion extends Model
         return $this->hasMany(\App\Models\FinanciamientoProyecto::class, 'proyecto_id');
     }
 
+    public function avancesFinancieros() {
+    return $this->hasMany(AvanceFinanciero::class, 'proyecto_id');
+    }
+
+    public function avancesFisicos() {
+        return $this->hasMany(AvanceFisico::class, 'proyecto_id');
+    }
+
+    public function evidencias()
+    {
+        return $this->hasMany(DocumentoEvidencia::class, 'proyecto_id');
+    }
+
+    public function planificacionesEjecutivas()
+    {
+        return $this->hasMany(PlanificacionEjecutiva::class, 'proyecto_id');
+    }
+
 }
