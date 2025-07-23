@@ -43,15 +43,17 @@
                 required>
         </div>
         <div>
-            <label class="block text-sm font-medium">Unidad Organizacional</label>
-            <select name="unidad_organizacional_id" class="w-full border rounded p-2">
-                <option value="">-- Selecciona una unidad --</option>
-                @foreach ($unidades as $unidad)
-                    <option value="{{ $unidad->id }}" {{ $usuario->unidad_organizacional_id == $unidad->id ? 'selected' : '' }}>
-                        {{ $unidad->nombre }}
-                    </option>
-                @endforeach
-            </select>
+            
+            <!-- Unidad Organizativa -->
+            <div class="mb-4">
+                <label class="block font-semibold">Unidad Organizativa</label>
+                <select name="unidad_organizacional_id" class="form-select" required>
+                    <option value="">-- Selecciona una unidad --</option>
+                    @foreach($unidades as $unidad)
+                        <option value="{{ $unidad->id }}">{{ $unidad->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <div>

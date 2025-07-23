@@ -13,9 +13,15 @@ class PlanInstitucionalController extends Controller
 {
     public function index()
     {
-        $planes = PlanInstitucional::with('estado') // Cargar relación EstadoPlan
-            ->where('unidad_id', auth()->user()->unidad_organizacional_id)
-            ->get();
+        if (auth()->user()->can('ver modulo planificación institucional')) {
+            // Si tiene permiso, ve todos los planes
+            $planes = PlanInstitucional::with('estado')->get();
+        } else {
+            // Caso contrario, solo los de su unidad
+            $planes = PlanInstitucional::with('estado')
+                ->where('unidad_id', auth()->user()->unidad_organizacional_id)
+                ->get();
+        }
 
         return view('modulo1.planes.index', compact('planes'));
     }
@@ -76,7 +82,8 @@ class PlanInstitucionalController extends Controller
 
     public function show(string $id)
     {
-        //
+        $plan = PlanInstitucional::with('estado')->findOrFail($id);
+        return view('modulo1.planes.show', compact('plan'));
     }
 
     public function edit($id)

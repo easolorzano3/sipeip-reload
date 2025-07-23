@@ -7,6 +7,16 @@
             <h5 class="mb-0">👤 Crear Nuevo Usuario Institucional</h5>
         </div>
         <div class="card-body">
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <strong>Errores:</strong>
+                    <ul class="list-disc ml-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('usuarios.store') }}" method="POST">
                 @csrf
 
@@ -45,25 +55,26 @@
                         required>
                 </div>
                 <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label for="unidad_id" class="form-label">Unidad Organizativa</label>
-                        <select id="unidad_organizacional_id" name="unidad_organizacional_id" class="form-select" required>
-                            <option value="">-- Selecciona una unidad --</option>
-                            @foreach ($unidades as $unidad)
-                                <option value="{{ $unidad->id }}">{{ $unidad->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                        <div class="col-md-6">
-                            <label for="roles" class="form-label">Roles</label>
-                            <select id="roles" name="roles[]" class="form-select" multiple required>
-                                @foreach ($roles as $rol)
-                                    <option value="{{ $rol->name }}">{{ $rol->name }}</option>
+                        <!-- Unidad Organizativa -->
+                        <div class="mb-4">
+                            <label class="block font-semibold">Unidad Organizativa</label>
+                            <select name="unidad_organizacional_id" class="form-select" required>
+                                <option value="">-- Selecciona una unidad --</option>
+                                @foreach($unidades as $unidad)
+                                    <option value="{{ $unidad->id }}">{{ $unidad->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
                 </div>
-
+                <div class="mb-4">
+                    <label for="roles" class="block font-semibold">Roles</label>
+                    <select name="roles[]" id="roles" class="form-select w-full" multiple required>
+                        <option disabled>-- Selecciona uno o más roles --</option>
+                        @foreach($roles as $rol)
+                            <option value="{{ $rol->name }}">{{ $rol->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="d-flex justify-content-end">
                     <a href="{{ route('usuarios.index') }}" class="btn btn-secondary me-2">Cancelar</a>
                     <button type="submit" class="btn btn-success">Crear Usuario</button>

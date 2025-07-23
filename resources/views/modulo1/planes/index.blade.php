@@ -36,10 +36,10 @@
                         <td class="px-4 py-2">{{ $plan->codigo_plan }}</td>
                         <td class="px-4 py-2">{{ $plan->anio_inicio }} / {{ $plan->anio_fin }}</td>
                         <td class="px-4 py-2">{{ $plan->estado_institucional }}</td>
-                        <td class="px-4 py-2 capitalize">{{ $plan->estado }}</td>
+                        <td class="px-4 py-2 capitalize">{{ $plan->estado->nombre ?? 'Sin estado' }}</td>
                         <td class="px-4 py-2">{{ $plan->created_at->format('Y-m-d') }}</td>
                         <td class="px-4 py-2">
-                            <a href="#" class="text-blue-600 hover:underline mr-2">Ver</a>
+                            <a href="{{ route('planes.show', $plan->id) }}" class="text-blue-600 hover:underline mr-2">Ver</a>
                             <a href="{{ route('planes.edit', $plan->id) }}" class="text-yellow-600 hover:underline mr-2">Editar</a>
                         </td>
                     </tr>

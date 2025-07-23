@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Modulo8;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -13,7 +12,7 @@ class RolController extends Controller
     // Listar roles
     public function index()
     {
-        $roles = \Spatie\Permission\Models\Role::all();
+        $roles = Role::all();
         return view('modulo8.roles.index', compact('roles'));
     }
 
@@ -33,8 +32,10 @@ class RolController extends Controller
         ]);
 
         $role = Role::create(['name' => $request->name]);
+
         if ($request->has('permissions')) {
-            $role->syncPermissions($request->permissions);
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+            $role->syncPermissions($permissions);
         }
 
         return redirect()->route('roles.index')->with('success', 'Rol creado correctamente.');
@@ -50,7 +51,6 @@ class RolController extends Controller
         return view('modulo8.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
-
     // Actualizar rol
     public function update(Request $request, Role $role)
     {
@@ -60,7 +60,13 @@ class RolController extends Controller
         ]);
 
         $role->update(['name' => $request->name]);
-        $role->syncPermissions($request->permissions);
+
+        if ($request->has('permissions')) {
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+            $role->syncPermissions($permissions);
+        } else {
+            $role->syncPermissions([]); // Quitar todos si no se envió nada
+        }
 
         return redirect()->route('roles.index')->with('success', 'Rol actualizado correctamente.');
     }
