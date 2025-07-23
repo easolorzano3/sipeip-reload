@@ -84,4 +84,14 @@ class ProyectoInversion extends Model
         return $this->hasMany(PlanificacionEjecutiva::class, 'proyecto_id');
     }
 
+    public function cierre()
+    {
+        return $this->hasOne(CierreProyecto::class, 'proyecto_id');
+    }
+
+    public function informeFirmado()
+    {
+        return $this->hasOne(InformeFirmado::class, 'proyecto_id');
+    }
+
 }

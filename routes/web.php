@@ -41,9 +41,10 @@ use App\Http\Controllers\Modulo6\ReporteAvanceController;
 use App\Http\Controllers\Modulo6\DocumentoEvidenciaController;
 use App\Http\Controllers\Modulo6\PlanificacionEjecutivaController;
 
-
-
 use App\Http\Controllers\Modulo7Controller;
+use App\Http\Controllers\Modulo7\EvaluacionFinalController;
+
+
 use App\Http\Controllers\Modulo8Controller;
 use App\Http\Controllers\Modulo8\UsuarioController;
 use App\Http\Controllers\Modulo8\RolController;
@@ -224,6 +225,23 @@ Route::get('modulo6/reporte/{id}/pdf', [Modulo6Controller::class, 'generarReport
 Route::get('/modulo-evaluacion-final', [Modulo7Controller::class, 'index'])
     ->middleware(['auth', 'can:ver modulo evaluación y cierre'])
     ->name('modulo7.dashboard');
+
+Route::prefix('modulo7/evaluacion')->name('modulo7.evaluacion.')->group(function () {
+    Route::get('{id}', [EvaluacionFinalController::class, 'show'])->name('show');
+});
+
+Route::post('/modulo7/evaluacion/{id}/conclusiones', [EvaluacionFinalController::class, 'storeConclusiones'])
+    ->name('evaluacion7.conclusiones.store');
+
+Route::post('/modulo7/evaluacion/{id}/lecciones', [EvaluacionFinalController::class, 'storeLeccion'])
+    ->name('evaluacion7.lecciones.store');  
+    
+Route::post('/modulo7/evaluacion/{id}/informe/generar', [EvaluacionFinalController::class, 'generarInforme'])->name('evaluacion7.informe.generar');
+Route::post('/modulo7/evaluacion/{id}/informe/firmar', [EvaluacionFinalController::class, 'firmarInforme'])->name('evaluacion7.informe.firmar');
+
+Route::post('/modulo7/evaluacion/{id}/cerrar', [EvaluacionFinalController::class, 'cerrarProyecto'])
+    ->name('evaluacion7.cierre.store');
+
 
 // Módulo 8 - Administración y Seguridad
 Route::get('/modulo-administracion-seguridad', [Modulo8Controller::class, 'index'])
