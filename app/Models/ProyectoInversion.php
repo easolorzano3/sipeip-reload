@@ -100,4 +100,8 @@ class ProyectoInversion extends Model
         return $this->hasMany(LeccionAprendida::class, 'proyecto_id'); // Asegúrate que esta sea la clave foránea correcta
     }
 
+    public function metas()
+    {
+        return $this->belongsToMany(Meta::class, 'meta_proyecto', 'proyecto_id', 'meta_id')->withTimestamps();
+    }
 }

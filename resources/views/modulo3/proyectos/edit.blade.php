@@ -65,6 +65,16 @@
                 <input type="date" name="fecha_fin" value="{{ old('fecha_fin', $proyecto->fecha_fin) }}" class="form-input w-full">
             </div>
         </div>
+        <div class="mb-4">
+            <label class="block font-semibold">Metas asociadas</label>
+            <select name="meta_ids[]" multiple class="w-full border rounded p-2">
+                @foreach($metas as $meta)
+                    <option value="{{ $meta->id }}" {{ in_array($meta->id, $proyecto->metas->pluck('id')->toArray()) ? 'selected' : '' }}>
+                        {{ $meta->nombre }} - Obj: {{ $meta->objetivo->nombre }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow">
             💾 Actualizar Proyecto

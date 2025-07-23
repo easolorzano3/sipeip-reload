@@ -15,6 +15,9 @@ use App\Models\LeccionAprendida;
 use App\Models\InformeFirmado;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\CierreProyecto;
+use App\Models\PlanInstitucional;
+
+
 
 class EvaluacionFinalController extends Controller
 {
@@ -23,26 +26,38 @@ class EvaluacionFinalController extends Controller
      */
     public function show($id)
     {
-        // 1. Cargar el proyecto con su plan
+        // Proyecto actual
         $proyecto = ProyectoInversion::with(['plan'])->findOrFail($id);
 
-        // 2. Cargar metas relacionadas al plan
+        // Metas asociadas al plan
         $metas = Meta::whereHas('objetivoEstrategico', function ($q) use ($proyecto) {
             $q->where('plan_institucional_id', $proyecto->plan_id);
         })->with('indicadores')->get();
 
-        // 3. Cargar avances físicos del proyecto
         $avancesFisicos = AvanceFisico::where('proyecto_id', $proyecto->id)->get();
-
-        // 4. Cargar avances financieros del proyecto
         $avancesFinancieros = AvanceFinanciero::where('proyecto_id', $proyecto->id)->get();
-
-        // 5. Actividades POA relacionadas
         $actividades = ActividadPoa::where('plan_id', $proyecto->plan_id)->get();
 
         $conclusion = EvaluacionConclusion::where('proyecto_id', $id)->first();
-
         $lecciones = LeccionAprendida::where('proyecto_id', $id)->get();
+
+        // === NUEVO: Indicadores globales para el dashboard visual ===
+        $totalProyectos = ProyectoInversion::count();
+        $proyectosFinalizados = ProyectoInversion::where('estado', 'finalizado')->count();
+        $proyectosEnEjecucion = ProyectoInversion::where('estado', 'ejecucion')->count();
+
+        $avanceFinanciero = ProyectoInversion::with('avanceFinanciero')->get()->map(function ($p) {
+            return $p->avanceFinanciero()->avg('valor_ejecutado') ?? 0;
+        })->avg() ?? 0;
+
+        $totalUsuarios = \App\Models\User::count();
+
+        $planesTotales = PlanInstitucional::count();
+        $planesBorrador = PlanInstitucional::where('estado_i', 'borrador')->count();
+        $planesEnviados = PlanInstitucional::where('estado_i', 'en_revision')->count();
+        $planesAprobados = PlanInstitucional::where('estado_i', 'aprobado')->count();
+        $planesPublicados = PlanInstitucional::where('estado_id', 6)->count();
+        $planesFinalizados = PlanInstitucional::where('estado_id', 7)->count();
 
         return view('modulo7.evaluacion.show', compact(
             'proyecto',
@@ -51,28 +66,19 @@ class EvaluacionFinalController extends Controller
             'avancesFinancieros',
             'actividades',
             'conclusion',
+            'lecciones',
+            'totalProyectos',
+            'proyectosFinalizados',
+            'proyectosEnEjecucion',
+            'avanceFinanciero',
+            'totalUsuarios',
+            'planesTotales',
+            'planesBorrador',
+            'planesEnviados',
+            'planesAprobados',
+            'planesPublicados',
+            'planesFinalizados'
         ));
-    }
-
-    public function storeConclusiones(Request $request, $id)
-    {
-        $request->validate([
-            'observaciones' => 'nullable|string',
-            'advertencias' => 'nullable|string',
-            'recomendaciones' => 'nullable|string',
-        ]);
-
-        EvaluacionConclusion::updateOrCreate(
-            ['proyecto_id' => $id],
-            [
-                'observaciones' => $request->observaciones,
-                'advertencias' => $request->advertencias,
-                'recomendaciones' => $request->recomendaciones,
-                'user_id' => auth()->id(),
-            ]
-        );
-
-        return back()->with('success', 'Conclusiones registradas correctamente.');
     }
 
     public function storeLeccion(Request $request, $id)
@@ -145,6 +151,57 @@ class EvaluacionFinalController extends Controller
         $proyecto->save();
 
         return back()->with('success', 'Proyecto cerrado exitosamente.');
+    }
+
+    public function reportes(Request $request)
+    {
+        $query = ProyectoInversion::with('plan');
+
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%'.$request->nombre.'%');
+        }
+
+        if ($request->filled('codigo')) {
+            $query->where('codigo', 'like', '%'.$request->codigo.'%');
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        $proyectos = $query->get();
+
+        return view('modulo7.evaluacion.reportes.index', compact('proyectos'));
+    }
+
+    public function index(Request $request)
+    {
+        $buscar = $request->input('buscar');
+
+        $planes = PlanInstitucional::with('estado')
+            ->where('estado_id', 6) // Publicado
+            ->get();
+
+        return view('modulo7.dashboard', compact('planes'));
+    }
+
+    public function generarInformePdf(Request $request)
+    {
+        $estadoId = $request->estado_id;
+        $planId = $request->plan_id;
+
+        $planes = PlanInstitucional::with([
+            'metas.indicadores',
+            'programas.proyectos'
+        ])
+        ->when($estadoId, fn($q) => $q->where('estado_id', $estadoId))
+        ->when($planId, fn($q) => $q->where('id', $planId))
+        ->get();
+
+        // Generar PDF con vista blade
+        $pdf = Pdf::loadView('modulo7.reportes.reporte_pdf', compact('planes'));
+
+        return $pdf->stream('informe_consolidado.pdf');
     }
 
 }

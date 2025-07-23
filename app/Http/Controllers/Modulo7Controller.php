@@ -21,13 +21,16 @@ class Modulo7Controller extends Controller
 
     public function show($id)
     {
-        $plan = PlanInstitucional::with(['proyectos.lecciones', 'proyectos.informeFirmado'])->findOrFail($id);
+        $plan = PlanInstitucional::with([
+            'proyectos.metas.indicadores',
+            'proyectos.lecciones',
+            'proyectos.informeFirmado'
+        ])->findOrFail($id);
+
         $proyecto = $plan->proyectos->first();
         $lecciones = $proyecto ? $proyecto->lecciones : collect();
-
-        // Si todavía no tienes datos, puedes usar collect() como placeholder
-        $metas = collect();
-        $conclusiones = collect();
+        $metas = $proyecto ? $proyecto->metas : collect(); // ✅ ahora sí trae metas asociadas
+        $conclusiones = collect(); // Puedes reemplazar si ya tienes datos
         $informe = $proyecto ? $proyecto->informeFirmado : null;
         $cierres = collect();
         $avancesFisicos = collect();

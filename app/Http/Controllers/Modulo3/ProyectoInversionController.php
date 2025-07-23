@@ -9,6 +9,7 @@ use App\Models\ProyectoInversion;
 use App\Models\ProgramaInversion;
 use App\Models\ActividadPoa;
 use App\Models\PlanInstitucional;
+use App\Models\Meta;
 
 class ProyectoInversionController extends Controller
 {
@@ -24,7 +25,7 @@ class ProyectoInversionController extends Controller
     {
         // Capturar ID del programa desde query string
         $programaId = $request->query('programa_id');
-
+        $metas = Meta::with('objetivo')->get();
         // Validar que venga un programa válido
         $programa = ProgramaInversion::with('plan')->findOrFail($programaId);
         $plan = $programa->plan;
@@ -38,12 +39,13 @@ class ProyectoInversionController extends Controller
         // Actividades POA
         $actividades = ActividadPoa::all();
 
-        return view('modulo3.proyectos.create', compact('plan', 'programa', 'actividades', 'codigoGenerado'));
+        return view('modulo3.proyectos.create', compact('plan', 'programa', 'actividades', 'codigoGenerado', 'metas'));
     }
 
     // Almacenar proyecto nuevo
     public function store(Request $request)
     {
+        
         $request->validate([
             'plan_id' => 'required|exists:plan_institucionales,id',
             'programa_id' => 'nullable|exists:programas_inversion,id',
@@ -57,7 +59,7 @@ class ProyectoInversionController extends Controller
             'cronograma_fin' => 'nullable|date|after_or_equal:cronograma_inicio',
         ]);
 
-        ProyectoInversion::create([
+        $proyecto = ProyectoInversion::create([
             'plan_id' => $request->plan_id,
             'programa_id' => $request->programa_id,
             'actividad_poa_id' => $request->actividad_poa_id,
@@ -72,6 +74,9 @@ class ProyectoInversionController extends Controller
             'created_by' => auth()->id(),
         ]);
 
+// Ahora sí puedes usar la variable
+$proyecto->metas()->sync($request->meta_ids);
+        
         return redirect()->route('proyectos.indexPorPrograma', ['id' => $request->programa_id])->with('success', 'Proyecto creado exitosamente.');
 
     }
@@ -83,18 +88,21 @@ class ProyectoInversionController extends Controller
 
     public function edit($id)
     {
+        $proyecto = ProyectoInversion::with('metas')->findOrFail($id);
         $proyecto = ProyectoInversion::findOrFail($id);
         $programa = ProgramaInversion::findOrFail($proyecto->programa_id);
         $plan = PlanInstitucional::findOrFail($proyecto->plan_id);
         $actividades = ActividadPoa::all();
+        $metas = Meta::with('objetivo')->get();
 
-        return view('modulo3.proyectos.edit', compact('proyecto', 'programa', 'plan', 'actividades'));
+        return view('modulo3.proyectos.edit', compact('proyecto', 'programa', 'plan', 'actividades', 'metas'));
     }
 
     public function update(Request $request, $id)
     {
         $proyecto = ProyectoInversion::findOrFail($id);
 
+        $proyecto->metas()->sync($request->meta_ids);
         $request->validate([
             'nombre' => 'required|string|max:255',
             'actividad_poa_id' => 'nullable|exists:actividades_poa,id',
@@ -124,6 +132,10 @@ class ProyectoInversionController extends Controller
         $proyecto = ProyectoInversion::findOrFail($id);
         $programaId = $proyecto->programa_id;
 
+        // Elimina las relaciones con metas
+        $proyecto->metas()->detach();
+
+        // Ahora sí puedes eliminar el proyecto
         $proyecto->delete();
 
         return redirect()

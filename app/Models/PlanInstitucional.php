@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\UnidadOrganizacional;
 use App\Models\EstadoPlan;
 
+
 class PlanInstitucional extends Model
 {
     protected $table = 'plan_institucionales';

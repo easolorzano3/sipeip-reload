@@ -248,6 +248,14 @@ Route::post('/modulo7/evaluacion/{id}/informe/firmar', [EvaluacionFinalControlle
 Route::post('/modulo7/evaluacion/{id}/cerrar', [EvaluacionFinalController::class, 'cerrarProyecto'])
     ->name('evaluacion7.cierre.store');
 
+Route::get('/modulo-evaluacion-final/reportes', [EvaluacionFinalController::class, 'reportes'])->name('modulo7.reportes.index');
+
+Route::get('/modulo-evaluacion-final/reporte/{id}', [EvaluacionFinalController::class, 'generarPDF'])
+    ->name('modulo7.reportes.pdf');
+
+
+
+
 
 // Módulo 8 - Administración y Seguridad
 Route::get('/modulo-administracion-seguridad', [Modulo8Controller::class, 'index'])

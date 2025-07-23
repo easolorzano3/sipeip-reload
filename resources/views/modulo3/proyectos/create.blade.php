@@ -83,6 +83,19 @@
             </div>
         </div>
 
+
+        <div class="mb-4">
+            <label class="block font-semibold">Seleccionar Meta(s)</label>
+            <select name="meta_ids[]" multiple class="w-full border rounded p-2">
+                @foreach($metas as $meta)
+                    <option value="{{ $meta->id }}">
+                        {{ $meta->nombre }} - Obj: {{ $meta->objetivo->nombre }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+
         {{-- Botón --}}
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             💾 Guardar Proyecto

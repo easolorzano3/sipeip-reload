@@ -76,4 +76,14 @@
         </table>
     </div>
 </div>
+<div class="mb-4">
+    <h3 class="font-bold">Metas asociadas al proyecto:</h3>
+    <ul class="list-disc ml-6">
+        @forelse($proyecto->metas as $meta)
+            <li>{{ $meta->nombre }} ({{ $meta->objetivo->nombre }})</li>
+        @empty
+            <li>No hay metas asociadas.</li>
+        @endforelse
+    </ul>
+</div>
 @endsection
