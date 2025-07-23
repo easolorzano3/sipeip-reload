@@ -41,6 +41,7 @@ use App\Http\Controllers\Modulo6\ReporteAvanceController;
 use App\Http\Controllers\Modulo6\DocumentoEvidenciaController;
 use App\Http\Controllers\Modulo6\PlanificacionEjecutivaController;
 
+
 use App\Http\Controllers\Modulo7Controller;
 use App\Http\Controllers\Modulo7\EvaluacionFinalController;
 
@@ -219,6 +220,8 @@ Route::get('/modulo6/reportes/{id}', [Modulo6Controller::class, 'reporte'])->nam
 
 Route::get('modulo6/reporte/{id}/pdf', [Modulo6Controller::class, 'generarReportePdf'])->name('modulo6.reporte.pdf');
 
+Route::put('/modulo6/proyectos/{proyecto}/finalizar', [ProyectoInversionController::class, 'finalizar'])
+    ->name('proyectos.finalizar');
 
 
 // Módulo 7 - Evaluación Final y Cierre
@@ -229,6 +232,9 @@ Route::get('/modulo-evaluacion-final', [Modulo7Controller::class, 'index'])
 Route::prefix('modulo7/evaluacion')->name('modulo7.evaluacion.')->group(function () {
     Route::get('{id}', [EvaluacionFinalController::class, 'show'])->name('show');
 });
+
+Route::get('/modulo7/evaluacion/{id}', [App\Http\Controllers\Modulo7Controller::class, 'show'])->name('modulo7.evaluacion.show');
+
 
 Route::post('/modulo7/evaluacion/{id}/conclusiones', [EvaluacionFinalController::class, 'storeConclusiones'])
     ->name('evaluacion7.conclusiones.store');

@@ -62,5 +62,10 @@ class PlanInstitucional extends Model
         return $this->hasMany(ActividadPoa::class, 'plan_id');
     }
 
+    public function dictamenTecnico()
+    {
+        return $this->hasOne(\App\Models\DictamenTecnico::class, 'proyecto_id');
+    }
+
     
 }

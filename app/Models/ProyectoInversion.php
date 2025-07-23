@@ -24,6 +24,7 @@ class ProyectoInversion extends Model
         'cronograma_fin',
         'estado',
         'created_by',
+        
     ];
 
     // 🔁 Relación: pertenece a un programa (puede ser null)
@@ -92,6 +93,11 @@ class ProyectoInversion extends Model
     public function informeFirmado()
     {
         return $this->hasOne(InformeFirmado::class, 'proyecto_id');
+    }
+
+   public function lecciones()
+    {
+        return $this->hasMany(LeccionAprendida::class, 'proyecto_id'); // Asegúrate que esta sea la clave foránea correcta
     }
 
 }

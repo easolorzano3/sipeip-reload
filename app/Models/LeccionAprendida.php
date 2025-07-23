@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LeccionAprendida extends Model
 {
+    protected $table = 'lecciones_aprendidas';
     protected $fillable = ['proyecto_id', 'tipo', 'descripcion', 'user_id'];
 
     public function proyecto()
