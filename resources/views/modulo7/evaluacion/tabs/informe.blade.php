@@ -18,12 +18,13 @@
             <p class="text-sm text-gray-600">📅 Firmado el {{ $informe->firmado_en->format('d/m/Y H:i') }} por {{ optional($informe->usuario)->name }}</p>
         @endif
     @else
-        <form action="{{ route('evaluacion7.informe.generar', $proyecto->id) }}" method="POST">
+        <form action="{{ route('evaluacion7.informe.generar', $plan->id) }}" method="POST" target="_blank">
             @csrf
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button type="submit" class="btn btn-primary">
                 📄 Generar Informe PDF
             </button>
         </form>
+
     @endif
     <ul class="list-disc text-sm text-gray-600 pl-6">
         <li>Revisión del contenido generado automáticamente</li>

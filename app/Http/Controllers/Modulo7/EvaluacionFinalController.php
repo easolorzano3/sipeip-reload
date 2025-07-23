@@ -100,21 +100,20 @@ class EvaluacionFinalController extends Controller
 
     public function generarInforme($id)
     {
-        $proyecto = ProyectoInversion::with('plan')->findOrFail($id);
+        $plan = PlanInstitucional::with([
+            'proyectos.metas.indicadores',
+            'proyectos.lecciones',
+        ])->findOrFail($id);
 
-        $pdf = Pdf::loadView('modulo7.evaluacion.pdf.informe', compact('proyecto'));
+        $proyecto = $plan->proyectos->first(); // ← Esto asume que hay al menos un proyecto
 
-        $filename = 'informe_proyecto_'.$id.'_'.now()->format('Ymd_His').'.pdf';
-        $path = 'informes/'.$filename;
-        Storage::disk('public')->put($path, $pdf->output());
+        // Validación extra por si no hay proyectos
+        if (!$proyecto) {
+            return back()->with('error', 'No se encontró un proyecto asociado al plan.');
+        }
 
-        // Registra o actualiza el informe
-        $informe = InformeFirmado::updateOrCreate(
-            ['proyecto_id' => $id],
-            ['archivo_pdf' => $path]
-        );
-
-        return back()->with('success', 'Informe generado correctamente.');
+        $pdf = Pdf::loadView('modulo7.evaluacion.pdf.informe', compact('plan', 'proyecto'));
+        return $pdf->stream('informe_final_proyecto.pdf');
     }
 
     public function firmarInforme($id)

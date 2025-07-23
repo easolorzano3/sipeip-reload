@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+        
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,7 +19,13 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-            
+             {{-- Información del usuario actual --}}
+                @if (isset($usuario_actual))
+                    <div class="text-right text-sm text-gray-600 px-6 pt-2">
+                        👤 <span class="font-semibold">{{ $usuario_actual->nombres }} {{ $usuario_actual->apellidos }}</span><br>
+                        🏢 {{ $usuario_actual->unidadOrganizacional?->nombre ?? 'Sin unidad asignada' }}
+                    </div>
+                @endif
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">

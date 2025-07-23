@@ -18,9 +18,19 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
+            <!-- Settings User Info and Dropdown -->
+            @if (isset($usuario_actual))
+                <div class="hidden sm:flex sm:flex-col sm:items-end sm:justify-center text-right mr-4">
+                    <span class="text-base font-bold text-gray-800">{{ $usuario_actual->nombres }} {{ $usuario_actual->apellidos }}</span>
+                    <span class="text-sm text-gray-600 italic">
+                        {{ $usuario_actual->unidadOrganizacional?->nombre ?? 'Sin unidad organizacional' }}
+                    </span>
+                </div>
+            @endif
+
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
+
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>

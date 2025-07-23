@@ -52,4 +52,10 @@ class User extends Authenticatable
         return $this->nombres . ' ' . $this->apellidos;
     }
 
+    public function unidadOrganizacional()
+    {
+        return $this->belongsTo(UnidadOrganizacional::class, 'unidad_organizacional_id');
+    }
+
+
 }

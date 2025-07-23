@@ -9,6 +9,7 @@ class UnidadOrganizacional extends Model
 {
     // use HasFactory;
     protected $table = 'unidad_organizacionales';
+    protected $fillable = ['nombre'];
 
     public function planesInstitucionales()
     {
