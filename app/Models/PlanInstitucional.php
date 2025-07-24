@@ -68,5 +68,5 @@ class PlanInstitucional extends Model
         return $this->hasOne(\App\Models\DictamenTecnico::class, 'proyecto_id');
     }
 
-    
+
 }

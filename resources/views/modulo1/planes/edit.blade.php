@@ -25,7 +25,14 @@
 
         <div>
             <label class="block font-medium">Nivel de Gobierno</label>
-            <input type="text" name="nivel_gobierno" value="{{ old('nivel_gobierno', $plan->nivel_gobierno) }}" class="w-full p-2 border rounded" required>
+            <select name="nivel_gobierno" class="form-select" required>
+                <option value="">Seleccione</option>
+                <option value="Nacional" @selected(old('nivel_gobierno', $plan->nivel_gobierno ?? '') == 'Nacional')>Nacional</option>
+                <option value="Zonal" @selected(old('nivel_gobierno', $plan->nivel_gobierno ?? '') == 'Zonal')>Zonal</option>
+                <option value="Provincial" @selected(old('nivel_gobierno', $plan->nivel_gobierno ?? '') == 'Provincial')>Provincial</option>
+                <option value="Cantonal" @selected(old('nivel_gobierno', $plan->nivel_gobierno ?? '') == 'Cantonal')>Cantonal</option>
+                <option value="Autónomo Descentralizado" @selected(old('nivel_gobierno', $plan->nivel_gobierno ?? '') == 'Autónomo Descentralizado')>Autónomo Descentralizado</option>
+            </select>
         </div>
 
         <div>
@@ -56,9 +63,13 @@
 
         <div>
             <label class="block font-medium">Estado Institución</label>
-            <select name="estado_institucional" class="w-full p-2 border rounded" required>
-                <option value="Activo" {{ $plan->estado_institucion == 'Activo' ? 'selected' : '' }}>Activo</option>
-                <option value="Inactivo" {{ $plan->estado_institucion == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+            <select name="estado_institucional" class="form-select" required>
+                <option value="">Seleccione</option>
+                <option value="Activo" @selected(old('estado_institucional', $plan->estado_institucional ?? '') == 'Activo')>Activo</option>
+                <option value="Inactivo" @selected(old('estado_institucional', $plan->estado_institucional ?? '') == 'Inactivo')>Inactivo</option>
+                <option value="Evaluacion" @selected(old('estado_institucional', $plan->estado_institucional ?? '') == 'Evaluacion')>Evaluacion</option>
+                <option value="Reestructuracion" @selected(old('estado_institucional', $plan->estado_institucional ?? '') == 'Reestructuracion')>Reestructuracion</option>
+                <option value="Suprimido" @selected(old('estado_institucional', $plan->estado_institucional ?? '') == 'Suprimido')>Suprimido</option>
             </select>
         </div>
 

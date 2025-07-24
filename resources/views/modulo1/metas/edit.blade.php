@@ -26,6 +26,8 @@
                 <label class="block text-sm font-medium mb-1">Objetivo Estratégico Asociado</label>
                 <input type="text" value="{{ $meta->objetivoEstrategico->nombre }}" readonly
                     class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100">
+
+                <input type="hidden" name="objetivo_estrategico_id" value="{{ $meta->objetivo_estrategico_id }}">
             </div>
 
             {{-- Nombre de la Meta --}}

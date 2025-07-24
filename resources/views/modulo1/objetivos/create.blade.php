@@ -43,28 +43,16 @@
 
                 {{-- Eje estratégico --}}
                 <div class="mb-4">
-                    <label for="eje_estrategico_id" class="block text-sm font-medium text-gray-700">Eje Estratégico *</label>
-                    <select name="eje_estrategico_id" id="eje_estrategico_id" class="w-full mt-1 p-2 border rounded" required>
-                        <option value="">-- Selecciona un eje --</option>
-                        @foreach($ejes as $eje)
-                            <option value="{{ $eje->id }}" {{ old('eje_estrategico_id') == $eje->id ? 'selected' : '' }}>
-                                {{ $eje->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label for="eje_estrategico_nombre" class="block text-sm font-medium text-gray-700">Eje Estratégico *</label>
+                    <input type="text" name="eje_estrategico_nombre" class="form-control" placeholder="Ingrese el nombre del eje estratégico" required>
+
                 </div>
 
                 {{-- Política Nacional (opcional) --}}
                 <div class="mb-4">
-                    <label for="politica_nacional_id" class="block text-sm font-medium text-gray-700">Política Nacional (opcional)</label>
-                    <select name="politica_nacional_id" id="politica_nacional_id" class="w-full mt-1 p-2 border rounded">
-                        <option value="">-- Sin asignar --</option>
-                        @foreach($politicas as $politica)
-                            <option value="{{ $politica->id }}" {{ old('politica_nacional_id') == $politica->id ? 'selected' : '' }}>
-                                {{ $politica->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label for="politica_nacional_nombre" class="block text-sm font-medium text-gray-700">Política Nacional (opcional)</label>
+                    <input type="text" name="politica_nacional_nombre" class="form-control" placeholder="Ingrese el nombre de la política nacional (opcional)">
+
                 </div>
 
                 {{-- Periodo de ejecución --}}

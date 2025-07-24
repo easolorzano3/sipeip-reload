@@ -41,6 +41,12 @@
                         <td class="px-4 py-2">
                             <a href="{{ route('planes.show', $plan->id) }}" class="text-blue-600 hover:underline mr-2">Ver</a>
                             <a href="{{ route('planes.edit', $plan->id) }}" class="text-yellow-600 hover:underline mr-2">Editar</a>
+                            <form action="{{ route('planes.destroy', $plan->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este plan?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-danger btn btn-link p-0 m-0 align-baseline">Eliminar</button>
+                            </form>
+
                         </td>
                     </tr>
                 @endforeach

@@ -132,12 +132,7 @@ class EvaluacionFinalController extends Controller
     {
         $proyecto = ProyectoInversion::findOrFail($id);
 
-        // Verificar que ya tenga informe firmado
-        if (!$proyecto->informeFirmado || !$proyecto->informeFirmado->firmado_en) {
-            return back()->with('error', 'No se puede cerrar el proyecto sin informe firmado.');
-        }
-
-        // Registrar cierre
+        // Registrar cierre en tabla adicional (opcional)
         CierreProyecto::create([
             'proyecto_id' => $id,
             'fecha_cierre' => now(),
@@ -145,7 +140,7 @@ class EvaluacionFinalController extends Controller
             'descripcion' => $request->descripcion,
         ]);
 
-        // Cambiar estado del proyecto
+        // Actualizar estado directamente a "cerrado"
         $proyecto->estado = 'cerrado';
         $proyecto->save();
 
@@ -178,7 +173,7 @@ class EvaluacionFinalController extends Controller
         $buscar = $request->input('buscar');
 
         $planes = PlanInstitucional::with('estado')
-            ->where('estado_id', 6) // Publicado
+            ->where('estado_id', 7) // Publicado
             ->get();
 
         return view('modulo7.dashboard', compact('planes'));
@@ -201,6 +196,17 @@ class EvaluacionFinalController extends Controller
         $pdf = Pdf::loadView('modulo7.reportes.reporte_pdf', compact('planes'));
 
         return $pdf->stream('informe_consolidado.pdf');
+    }
+
+    public function finalizarPlan($id)
+    {
+        $plan = PlanInstitucional::findOrFail($id);
+
+        // Cambiar a estado Finalizado (estado_id = 7)
+        $plan->estado_id = 8;
+        $plan->save();
+
+        return back()->with('success', 'El plan fue finalizado exitosamente.');
     }
 
 }

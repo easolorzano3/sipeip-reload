@@ -75,12 +75,14 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Módulo 1 - Planificación Institucional
-Route::prefix('modulo-planificacion-institucional')->middleware(['auth'])->group(function () {
+Route::prefix('modulo-planificacion-institucional')->group(function () {
     Route::get('/', [Modulo1Controller::class, 'index'])
         ->middleware('can:ver modulo planificación institucional')
         ->name('modulo1.dashboard');
 
-    Route::resource('planes', PlanInstitucionalController::class);
+    Route::resource('planes', PlanInstitucionalController::class)->names('planes');
+    Route::delete('/modulo-planificacion-institucional/planes/{id}', [PlanInstitucionalController::class, 'destroy'])->name('planes.destroy');
+
     Route::resource('objetivos', ObjetivoEstrategicoController::class);
     Route::resource('alineaciones-pnd-ods', AlineacionPndOdsController::class)
         ->parameters(['alineaciones-pnd-ods' => 'alineacion_pnd_ods']);
@@ -110,8 +112,10 @@ Route::prefix('modulo-planificacion-institucional')->middleware(['auth'])->group
 });
 
 // Módulo 2 - Validación de Planes
-// Redireccionar acceso directo al módulo 2 hacia el listado de validaciones
-Route::redirect('/modulo-validacion-planes', '/modulo-validacion-planes/validaciones');
+Route::get('/modulo-validacion-planes', [Modulo2Controller::class, 'index'])
+    ->middleware(['auth', 'can:ver modulo validación de planes'])
+    ->name('modulo2.dashboard');
+
 Route::prefix('modulo-validacion-planes')->middleware(['auth'])->group(function () {
     Route::resource('validaciones', ValidacionPlanController::class)->names('validaciones');
 });
@@ -141,7 +145,8 @@ Route::prefix('modulo3')->middleware(['auth'])->group(function () {
 
 // Módulo 4 - Priorización y Viabilidad
 // Ruta personalizada para mostrar el index
-Route::get('/modulo-priorizacion-viabilidad', [DictamenTecnicoController::class, 'index'])->name('modulo4.priorizacion.index');
+Route::get('/modulo-priorizacion-viabilidad', [DictamenTecnicoController::class, 'index'])->middleware(['auth', 'can:ver modulo priorización y viabilidad'])
+->name('modulo4.priorizacion.index');
 
 // CRUD completo para dictámenes
 Route::resource('modulo4/dictamenes', DictamenTecnicoController::class);
@@ -252,6 +257,10 @@ Route::get('/modulo-evaluacion-final/reportes', [EvaluacionFinalController::clas
 
 Route::get('/modulo-evaluacion-final/reporte/{id}', [EvaluacionFinalController::class, 'generarPDF'])
     ->name('modulo7.reportes.pdf');
+
+Route::put('/modulo-evaluacion-final/finalizar/{id}', [EvaluacionFinalController::class, 'finalizarPlan'])
+    ->name('modulo7.finalizar');
+
 
 
 

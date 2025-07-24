@@ -65,9 +65,9 @@ class AlineacionPndOdsController extends Controller
         return redirect()->route('alineaciones-pnd-ods.index')->with('success', 'Alineación actualizada correctamente.');
     }
 
-    public function destroy(AlineacionPndOds $alineaciones)
+    public function destroy(AlineacionPndOds $alineacion_pnd_ods)
     {
-        $alineaciones>delete();
+        $alineacion_pnd_ods->delete();
 
         return redirect()->route('alineaciones-pnd-ods.index')->with('success', 'Alineación eliminada correctamente.');
     }

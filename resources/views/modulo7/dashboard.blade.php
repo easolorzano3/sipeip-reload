@@ -1,40 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-4">
-    <h2 class="text-2xl font-bold mb-4">📋 Evaluación Final y Cierre - Planes Publicados</h2>
+<div class="container mx-auto px-4">
+    <h2 class="text-2xl font-bold mb-4">📘 Evaluación Final y Cierre - Planes Publicados</h2>
+
+    {{-- ✅ Mensaje de éxito --}}
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
 
     @if($planes->isEmpty())
         <p class="text-gray-600">No se encontraron planes con los criterios especificados.</p>
     @else
-        <table class="w-full table-auto text-sm border">
-            <thead class="bg-gray-100 text-gray-700">
+        <table class="min-w-full bg-white shadow rounded">
+            <thead>
                 <tr>
-                    <th class="p-2 border">Código</th>
-                    <th class="p-2 border">Nombre</th>
-                    <th class="p-2 border">Estado</th>
-                    <th class="p-2 border text-center">Acciones</th>
+                    <th class="px-4 py-2 border">#</th>
+                    <th class="px-4 py-2 border">Nombre del Plan</th>
+                    <th class="px-4 py-2 border">Estado</th>
+                    <th class="px-4 py-2 border">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($planes as $plan)
+                @foreach($planes as $index => $plan)
                 <tr>
-                    <td class="border p-2">{{ $plan->codigo_plan }}</td>
-                    <td class="border p-2">{{ $plan->nombre }}</td>
-                    <td class="border p-2">{{ $plan->estado->nombre }}</td>
-                    <td class="border p-2 text-center">
-                        <a href="{{ route('modulo7.evaluacion.show', $plan->id) }}"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
-                            Gestionar
-                        </a>
+                    <td class="px-4 py-2 border">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2 border">{{ $plan->nombre }}</td>
+                    <td class="px-4 py-2 border">{{ $plan->estado->nombre ?? 'Desconocido' }}</td>
+                    <td class="px-4 py-2 border text-center">
+                        <form action="{{ route('modulo7.finalizar', $plan->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de finalizar este plan?');">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+                                Finalizar Plan
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     @endif
-    <hr class="my-8">
-
-
-    </div>
+</div>
 @endsection

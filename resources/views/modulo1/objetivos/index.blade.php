@@ -32,8 +32,8 @@
                                 <td class="p-3">{{ $objetivo->nombre }}</td>
                                 <td class="p-3">{{ Str::limit($objetivo->descripcion, 60) }}</td>
                                 <td class="p-3">{{ $objetivo->planInstitucional->nombre ?? '-' }}</td>
-                                <td class="p-3">{{ $objetivo->ejeEstrategico->nombre ?? '-' }}</td>
-                                <td class="p-3">{{ $objetivo->politicaNacional->nombre ?? '-' }}</td>
+                                <td class="p-3">{{ $objetivo->eje_estrategico_nombre ?? '-' }}</td>
+                                <td class="p-3">{{ $objetivo->politica_nacional_nombre ?? '-' }}</td>
                                 <td class="p-3">{{ $objetivo->periodo_inicio }} - {{ $objetivo->periodo_fin }}</td>
                                 <td class="p-3">{{ $objetivo->estado }}</td>
                                 <td class="p-3 text-center">

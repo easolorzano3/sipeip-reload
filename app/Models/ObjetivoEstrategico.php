@@ -11,8 +11,8 @@ class ObjetivoEstrategico extends Model
     protected $table = 'objetivos_estrategicos'; //
     protected $fillable = [
         'plan_institucional_id',
-        'eje_estrategico_id',
-        'politica_nacional_id',
+        'eje_estrategico_nombre',
+        'politica_nacional_nombre',
         'nombre',
         'descripcion',
         'periodo_inicio',

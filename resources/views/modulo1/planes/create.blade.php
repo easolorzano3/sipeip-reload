@@ -14,7 +14,9 @@
         </div>
     @endif
 
-    <form action="{{ route('planes.store') }}" method="POST" class="space-y-6">
+    <form action="{{ route('planes.store') }}" method="POST">
+
+
         @csrf
 
         {{-- DATOS DE LA ENTIDAD --}}
@@ -28,10 +30,14 @@
                 <label class="block font-medium text-sm text-gray-700">Nivel de Gobierno</label>
                 <select name="nivel_gobierno" required class="w-full rounded border-gray-300 mt-1">
                     <option value="">Seleccione</option>
-                    <option value="Nacional" {{ old('nivel_gobierno') == 'Nacional' ? 'selected' : '' }}>Nacional</option>
-                    <option value="Zonal" {{ old('nivel_gobierno') == 'Zonal' ? 'selected' : '' }}>Zonal</option>
-                    <option value="Provincial" {{ old('nivel_gobierno') == 'Provincial' ? 'selected' : '' }}>Provincial</option>
-                    <option value="Cantonal" {{ old('nivel_gobierno') == 'Cantonal' ? 'selected' : '' }}>Cantonal</option>
+                    <option value="Nacional" @selected(old('nivel_gobierno') == 'Nacional')>Nacional</option>
+                    <option value="Zonal" @selected(old('nivel_gobierno') == 'Zonal')>Zonal</option>
+                    <option value="Provincial" @selected(old('nivel_gobierno') == 'Provincial')>Provincial</option>
+                    <option value="Cantonal" @selected(old('nivel_gobierno') == 'Cantonal')>Cantonal</option>
+                    <option value="Parroquial" @selected(old('nivel_gobierno') == 'Parroquial')>Parroquial</option>
+                    <option value="Autónomo Descentralizado" @selected(old('nivel_gobierno') == 'Autónomo Descentralizado')>Autónomo Descentralizado</option>
+                    <option value="Institucional" @selected(old('nivel_gobierno') == 'Institucional')>Institucional</option>
+                    <option value="Desconcentrado" @selected(old('nivel_gobierno') == 'Desconcentrado')>Desconcentrado</option>
                 </select>
             </div>
 
@@ -46,6 +52,10 @@
                     <option value="">Seleccione</option>
                     <option value="Activo" @selected(old('estado_institucional') == 'Activo')>Activo</option>
                     <option value="Inactivo" @selected(old('estado_institucional') == 'Inactivo')>Inactivo</option>
+                    <option value="Evaluacion" @selected(old('estado_institucional') == 'Evaluacion')>Evaluacion</option>
+                    <option value="Reestructuracion" @selected(old('estado_institucional') == 'Reestructuracion')>Reestructuracion</option>
+                    <option value="Suprimido" @selected(old('estado_institucional') == 'Suprimido')>Suprimido</option>
+
 
                 </select>
             </div>

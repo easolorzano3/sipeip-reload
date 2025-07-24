@@ -7,24 +7,19 @@ use App\Models\EstadoPlan;
 use App\Models\PlanInstitucional;
 use App\Models\UnidadOrganizacional;
 use App\Models\VersionHistorial;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class PlanInstitucionalController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->can('ver modulo planificación institucional')) {
-            // Si tiene permiso, ve todos los planes
-            $planes = PlanInstitucional::with('estado')->get();
-        } else {
-            // Caso contrario, solo los de su unidad
-            $planes = PlanInstitucional::with('estado')
-                ->where('unidad_id', auth()->user()->unidad_organizacional_id)
-                ->get();
-        }
-
+        $planes = PlanInstitucional::with('estado')->get();
         return view('modulo1.planes.index', compact('planes'));
     }
+
+        
+    
 
     
     public function create()
@@ -41,7 +36,16 @@ class PlanInstitucionalController extends Controller
             'entidad' => 'required|string|max:255',
             'nivel_gobierno' => 'required|string|max:100',
             'codigo_institucional' => 'required|string|max:50',
-            'estado_institucional' => 'required|string|in:Activo,Inactivo',
+            'estado_institucional' => [
+                'required',
+                Rule::in([
+                    'Activo',
+                    'Inactivo',
+                    'Evaluacion',
+                    'Reestructuracion',
+                    'Suprimido',
+                ]),
+            ], // ← Aquí cerramos correctamente esta validación
             'nombre' => 'required|string|max:255',
             'codigo_plan' => 'nullable|string|max:50',
             'anio_inicio' => 'required|date',
@@ -78,6 +82,8 @@ class PlanInstitucionalController extends Controller
         }
 
         return redirect()->route('planes.index')->with('success', 'Plan institucional registrado correctamente.');
+
+        
     }
 
     public function show(string $id)
@@ -101,11 +107,20 @@ class PlanInstitucionalController extends Controller
             'entidad' => 'required|string|max:255',
             'nivel_gobierno' => 'required|string|max:100',
             'codigo_institucional' => 'required|string|max:50',
+            'estado_institucional' => [
+                'required',
+                Rule::in([
+                    'Activo',
+                    'Inactivo',
+                    'Evaluacion',
+                    'Reestructuracion',
+                    'Suprimido',
+                ]),
+            ], // ← Aquí cerramos correctamente esta validación
             'nombre' => 'required|string|max:255',
-            'codigo_plan' => 'nullable|string|max:255',
+            'codigo_plan' => 'nullable|string|max:50',
             'anio_inicio' => 'required|date',
             'anio_fin' => 'required|date|after_or_equal:anio_inicio',
-            'estado_institucional' => 'required|in:Activo,Inactivo',
             'unidades' => 'nullable|array',
             'unidades.*' => 'exists:unidad_organizacionales,id',
         ]);
@@ -162,8 +177,14 @@ class PlanInstitucionalController extends Controller
 
 
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $plan = PlanInstitucional::findOrFail($id);
+
+        // Si el plan tiene relaciones que deben eliminarse en cascada, primero elimina esas relaciones
+
+        $plan->delete();
+
+        return redirect()->route('planes.index')->with('success', 'Plan eliminado correctamente');
     }
 }
